@@ -1,4 +1,4 @@
-# DermatomalMapping_Aim2
+# Dermatomal_Mapping_Aim_2
 
 ## Table of content
 * [1.Dependencies](#1dependencies)
@@ -12,12 +12,12 @@
 
 * Create python environment
 ~~~
-conda create --name Dermatomal_Mapping_R01 python==3.9
+conda create --name Dermatomal_Mapping_R01_Aim_2 python==3.9
 ~~~
 
 * Activate environment
 ~~~
-conda activate Dermatomal_Mapping_R01
+conda activate Dermatomal_Mapping_R01_Aim_2
 ~~~
 
 * Install requirements
