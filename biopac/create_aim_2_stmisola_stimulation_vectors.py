@@ -10,9 +10,6 @@ import argparse
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.signal import square
-import tkinter as tk
-from tkinter import simpledialog
-from tkinter import filedialog
 import time
 
 def get_parser():
@@ -28,6 +25,8 @@ def get_parser():
                         help="Duration of stimulation block in seconds.")
     parser.add_argument('-no_stim_durations', default='2,2,2,2,2,2,4,4,4,4,4,4,6,6,6,6,6,6,8,8,8,8,8,8,10,10,10,10,10,10', required=False, type=str,
                     help="Duration of no stimulation blocks in seconds.")
+    parser.add_argument('-no_stim_duration_after_last_stimulus', default=10, required=False, type=int,
+                        help="Duration of no stimulation period after last stimulus in seconds.")
     parser.add_argument('-stim_amps', default='0.2,0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6,2.8,3.0,3.2,3.4,3.6,3.8,4.0,4.2,4.4,4.6,4.8,5.0,5.2,5.4,5.6,5.8,6.0,6.2,6.4,6.6,6.8,7.0,7.2,7.4,7.6,7.8,8.0,8.2,8.4,8.6,8.8,9.0,9.2,9.4,9.6,9.8,10.0', required=False, type=str,
                         help="Stimulation amplitude")
     parser.add_argument('-n_stim_blocks', default=30, required=False, type=int,
@@ -87,8 +86,8 @@ def main():
         rng.shuffle(no_stim_durations)
 
         #Create vector of zeros length of stimulation experiment
-        stim_vector = np.zeros(((args.n_stim_blocks*args.stim_duration)+no_stim_duration)*args.samp_f)
-        fsl_stim_vector = np.zeros(((args.n_stim_blocks*args.stim_duration)+no_stim_duration)*100) #Using 100 Hz sampling frequency for fsl vector
+        stim_vector = np.zeros(((args.n_stim_blocks*args.stim_duration)+no_stim_duration+args.no_stim_duration_after_last_stimulus)*args.samp_f)
+        fsl_stim_vector = np.zeros(((args.n_stim_blocks*args.stim_duration)+no_stim_duration+args.no_stim_duration_after_last_stimulus)*100) #Using 100 Hz sampling frequency for fsl vector
         
         #Phase of stimulation wave default is 0
         phase=0
