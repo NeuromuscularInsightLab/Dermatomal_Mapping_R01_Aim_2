@@ -67,22 +67,22 @@ file="${SUBJECT//[\/]/_}"
 
 # Get session
 SES=$(basename "$SUBJECT")
-runs=(1 2 3)
+physio_files=($(ls ${file}_task-tens_run-*_physio.physio 2>/dev/null))
+
 # Check if physio files exists
-for run in "${runs[@]}";do
-  file_physio=${file}_task-tens_run-${run}_physio
-  file_task=${file}_task-tens_run-${run}_bold
+for file_physio in "${physio_files[@]}";do
+  # get file task assoiciated with it: 
+  file_task=$(echo "$file_physio" | sed 's/_physio\.physio$/_bold.nii.gz/')
+  file_physio=$(echo "$file_physio" | sed 's/\.physio$//')
+  echo "Processing physio file: $file_physio for task file: $file_task"
   if [[ -f ${file_physio}.physio ]];then
     # Get dims
     number_of_volumes=$(fslval ${file_task}.nii.gz dim4)
     echo "Number of volumes: $number_of_volumes"
     tr=$(fslval ${file_task}.nii.gz pixdim4)
     echo "TR: $tr"
-
-    # Convert physio file to FSL format
-    python3 ${PATH_SCRIPTS}/create_FSL_physio_text_file.py -i ${file_physio}.physio -TR $tr -number-of-volumes $number_of_volumes
     # Detect cardiac peaks, visual check, save timepoints.
-    python3 ${PATH_SCRIPTS}/detect_peak_pnm.py -i ${file_physio}.txt -o ${file_physio}_peak.txt -min-peak-dist 68 # TO CHANGE IF DOESN'T WORK
+    python3 ${PATH_SCRIPTS}/detect_peak_pnm.py -i ${file_physio}.physio -o ${file_physio}_peak.txt -min-peak-dist 68 # TO CHANGE IF DOESN'T WORK
     # Create a derivatives diretory in data_processed to physio file with peaks
     mkdir -p $PATH_DATA_PROCESSED/derivatives/labels/${SUBJECT}/func
     # Copy the cardiac peaks file to derivatives
