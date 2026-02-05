@@ -38,9 +38,9 @@ echo "PATH_DATA_PROCESSED: ${PATH_DATA_PROCESSED}"
 echo "PATH_RESULTS: ${PATH_RESULTS}"
 echo "PATH_LOG: ${PATH_LOG}"
 echo "PATH_QC: ${PATH_QC}"
+echo "PATH_SEGMANUAL: ${PATH_SEGMANUAL}"
 # Get path derivatives
 path_source=$(dirname $PATH_DATA)
-PATH_DERIVATIVES="${PATH_SEGMANUAL}"
 # Get path of script repository
 PATH_SCRIPTS=$PWD
 
@@ -59,7 +59,7 @@ segment_if_does_not_exist() {
   local subfolder="$4"
   # Update global variable with segmentation file name
   FILESEG="${file}_label-SC_seg"
-  FILESEGMANUAL="${PATH_DERIVATIVES}/${SUBJECT}/${subfolder}/${FILESEG}.nii.gz"
+  FILESEGMANUAL="${PATH_SEGMANUAL}/${SUBJECT}/${subfolder}/${FILESEG}.nii.gz"
   echo
   echo "Looking for manual segmentation: $FILESEGMANUAL"
   if [[ -e $FILESEGMANUAL ]]; then
@@ -70,11 +70,11 @@ segment_if_does_not_exist() {
     echo "Not found. Proceeding with automatic segmentation."
     # Segment spinal cord
     if [[ $segmentation_method == 'deepseg' ]];then
-        ${SCT_EXEC}sct_deepseg -i ${file}.nii.gz -task seg_sc_contrast_agnostic -largest 1 -o ${file}_label-SC_seg.nii.gz -qc ${PATH_QC} -qc-subject ${SUBJECT}
+        ${SCT_EXEC}sct_deepseg spinalcord -i ${file}.nii.gz -largest 1 -o ${file}_label-SC_seg.nii.gz -qc ${PATH_QC} -qc-subject ${SUBJECT}
     elif [[ $segmentation_method == 'propseg' ]]; then
         ${SCT_EXEC}sct_propseg -i ${file}.nii.gz -c ${contrast} -qc ${PATH_QC} -qc-subject ${SUBJECT} -CSF
     elif [[ $segmentation_method == 'epi' ]]; then
-        ${SCT_EXEC}sct_deepseg -i ${file}.nii.gz -task seg_sc_epi -o ${file}_label-SC_seg.nii.gz -qc ${PATH_QC} -qc-subject ${SUBJECT}
+        ${SCT_EXEC}sct_deepseg sc_epi -i ${file}.nii.gz -o ${file}_label-SC_seg.nii.gz -qc ${PATH_QC} -qc-subject ${SUBJECT}
         # Copy header of original image to ensure that pixdim stays the same
         fslcpgeom ${file}.nii.gz ${file}_label-SC_seg.nii.gz 
 
@@ -93,7 +93,7 @@ label_if_does_not_exist(){
   local file_seg="$2"
   # Update global variable with segmentation file name
   FILELABEL="${file}_label-disc"
-  FILELABELMANUAL="${PATH_DERIVATIVES}/${SUBJECT}/anat/${FILELABEL}.nii.gz"
+  FILELABELMANUAL="${PATH_SEGMANUAL}/${SUBJECT}/anat/${FILELABEL}.nii.gz"
   echo "Looking for manual label: $FILELABELMANUAL"
   if [[ -e $FILELABELMANUAL ]]; then
     echo "Found! Using manual labels."
@@ -118,7 +118,7 @@ segment_rootlets_if_does_not_exist() {
   local file_seg="$2"
   # Update global variable with segmentation file name
   FILEROOTLET="${file}_label-rootlets_dseg"
-  FILESEGMANUAL="${PATH_DERIVATIVES}/${SUBJECT}/anat/${FILEROOTLET}.nii.gz"
+  FILESEGMANUAL="${PATH_SEGMANUAL}/${SUBJECT}/anat/${FILEROOTLET}.nii.gz"
   echo
   echo "Looking for manual segmentation: $FILESEGMANUAL"
   if [[ -e $FILESEGMANUAL ]]; then
@@ -127,7 +127,7 @@ segment_rootlets_if_does_not_exist() {
   else
     echo "Not found. Proceeding with automatic segmentation."
     # Segment spinal nerve rootlets
-    ${SCT_EXEC}sct_deepseg -i ${file}.nii.gz -task seg_spinal_rootlets_t2w -o ${FILEROOTLET}.nii.gz -qc ${PATH_QC} -qc-subject ${SUBJECT}
+    ${SCT_EXEC}sct_deepseg rootlets -i ${file}.nii.gz -o ${FILEROOTLET}.nii.gz -qc ${PATH_QC} -qc-subject ${SUBJECT}
   fi
 }
 
@@ -240,6 +240,7 @@ if [[ $SES == *"spinalcord"* ]];then
     # -------------------------------------------------------------------------
     cd ../func
 
+  
     runs=(leftpinky rightpinky leftthumb rightthumb leftmiddle rightmiddle)
 
     for run in "${runs[@]}";do
@@ -272,7 +273,7 @@ if [[ $SES == *"spinalcord"* ]];then
           file_task_mean="${file_task}_mean"
           
           # Create mask if doesn't exist:
-          FILE_MASK="${PATH_DERIVATIVES}/${SUBJECT}/func/${file_task_mean}_mask.nii.gz"
+          FILE_MASK="${PATH_SEGMANUAL}/${SUBJECT}/func/${file_task_mean}_mask.nii.gz"
           echo
           echo "Looking for manual spinal mask: $FILE_MASK"
           if [[ -e $FILE_MASK ]]; then
@@ -300,7 +301,7 @@ if [[ $SES == *"spinalcord"* ]];then
             
             # Step 2 of 2D motion correction using mean of mc1 as ref
             # Create mask if doesn't exist:
-            FILE_MASK="${PATH_DERIVATIVES}/${SUBJECT}/func/${file_task}_mc1_mask.nii.gz"
+            FILE_MASK="${PATH_SEGMANUAL}/${SUBJECT}/func/${file_task}_mc1_mask.nii.gz"
             # ${file_task}_mc1_mask.nii.gz
             echo
             echo "Looking for manual spinal mask: $FILE_MASK"
@@ -335,7 +336,7 @@ if [[ $SES == *"spinalcord"* ]];then
           file_task_mc2=${file_task}_mc2
           file_task_mc2_mean=${file_task}_mc2_mean
 
-          FILE_SPINAL_CANAL_SEG="${PATH_DERIVATIVES}/${SUBJECT}/func/${file_task_mc2_mean}_label-canal_seg.nii.gz"
+          FILE_SPINAL_CANAL_SEG="${PATH_SEGMANUAL}/${SUBJECT}/func/${file_task_mc2_mean}_label-canal_seg.nii.gz"
           echo
           echo "Looking for manual spinal canal segmentation: $FILE_SPINAL_CANAL_SEG"
           if [[ -e $FILE_SPINAL_CANAL_SEG ]]; then
@@ -392,7 +393,7 @@ if [[ $SES == *"spinalcord"* ]];then
 
       #Process physio
       if [[ -e ${file_physio}.physio ]]; then
-        FILE_PHYSIO_CARD="${PATH_DERIVATIVES}/${SUBJECT}/func/${file_physio}_peak.txt"
+        FILE_PHYSIO_CARD="${PATH_SEGMANUAL}/${SUBJECT}/func/${file_physio}_peak.txt"
         echo starting physio
 
         echo "Looking for manual peak detection: $FILE_PHYSIO_CARD"
@@ -451,7 +452,8 @@ if [[ $SES == *"spinalcord"* ]];then
       for ((k=0; k<=$last_volume; k++));do
           vol="$(printf "vol%04d" ${k})"
           ${SCT_EXEC}sct_apply_transfo -i ${vol}.nii.gz -d ${SCT_DIR}/data/PAM50/template/PAM50_t2.nii.gz -w warp_${file_task_mc2_mean}2PAM50_t2.nii.gz -o ${vol}2template.nii.gz -x spline
-          fslmaths ${vol}2template.nii.gz -mul ${SCT_DIR}/data/PAM50/template/PAM50_cord.nii.gz ${vol}2template.nii.gz
+          #fslmaths ${vol}2template.nii.gz -mul ${SCT_EXEC}${SCT_DIR}/data/PAM50/template/PAM50_cord.nii.gz ${vol}2template.nii.gz
+          sct_maths -i ${vol}2template.nii.gz -mul ${SCT_DIR}/data/PAM50/template/PAM50_cord.nii.gz -o ${vol}2template.nii.gz
           fslroi ${vol}2template.nii.gz ${vol}2template.nii.gz 32 75 34 75 691 263
       done
       v="vol????2template.nii.gz"
@@ -461,8 +463,8 @@ if [[ $SES == *"spinalcord"* ]];then
       rm $v
       #${SCT_EXEC}sct_apply_transfo -i ${file_task_mc2}_pnm_stc.nii.gz -d ${SCT_DIR}/data/PAM50/template/PAM50_t2.nii.gz -w warp_${file_task_mc2_mean}2PAM50_t2.nii.gz -o ${file_task_mc2}_pnm_stc2template.nii.gz -x spline
       
-      fslmaths ${file_task_mc2}_pnm_stc2template.nii.gz -mul ${SCT_DIR}/data/PAM50/template/PAM50_cord.nii.gz ${file_task_mc2}_pnm_stc2template.nii.gz
-      fslroi ${file_task_mc2}_pnm_stc2template.nii.gz ${file_task_mc2}_pnm_stc2template.nii.gz 32 75 34 75 691 263
+      #fslmaths ${file_task_mc2}_pnm_stc2template.nii.gz -mul ${SCT_EXEC}${SCT_DIR}/data/PAM50/template/PAM50_cord.nii.gz ${file_task_mc2}_pnm_stc2template.nii.gz
+      #fslroi ${file_task_mc2}_pnm_stc2template.nii.gz ${file_task_mc2}_pnm_stc2template.nii.gz 32 75 34 75 691 263
 
       # Remove outside voxels based on spinal cord mask z limits
       ${SCT_EXEC}sct_apply_transfo -i ${file_task_mc2_mean_seg}.nii.gz -d ${SCT_DIR}/data/PAM50/template/PAM50_t2.nii.gz -w warp_${file_task_mc2_mean}2PAM50_t2.nii.gz -o ${file_task_mc2_mean_seg}2template.nii.gz -x nn
@@ -477,8 +479,8 @@ if [[ $SES == *"spinalcord"* ]];then
       # Run first-level analysis
       ###############################
      #rsync the folder fsl_stim_vectors:
-      #PATH_VECTORS="${PATH_DERIVATIVES}/${SUBJECT}/func/fsl_stim_vectors/"
-      PATH_VECTORS="${PATH_DERIVATIVES}/${sub_id}/fsl_stim_vectors"
+      #PATH_VECTORS="${PATH_SEGMANUAL}/${SUBJECT}/func/fsl_stim_vectors/"
+      PATH_VECTORS="${PATH_SEGMANUAL}/${sub_id}/fsl_stim_vectors"
       echo ${PATH_VECTORS}
 
       # Create variable with filename to  min max of amp and export to feat
