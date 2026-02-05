@@ -58,7 +58,7 @@ cd $PATH_DATA_PROCESSED
 # Copy func images
 # Note: we use '/./' in order to include the sub-folder 'ses-0X'
 mkdir -p "${SUBJECT}/func"
-rsync -Ravzh $PATH_DATA/./$SUBJECT/func/ ./${SUBJECT}/func/
+rsync -Ravzh $PATH_DATA/./$SUBJECT/func/* ./${SUBJECT}/func/*
 
 cd ${SUBJECT}/func
 
