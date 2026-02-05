@@ -78,9 +78,9 @@ for file_physio in "${physio_files[@]}";do
   echo "Processing physio file: $file_physio for task file: $file_task"
   if [[ -f ${file_physio}.physio ]];then
     # Get dims
-    number_of_volumes=$(fslval ${file_task}.nii.gz dim4)
+    number_of_volumes=$(fslval ${file_task} dim4)
     echo "Number of volumes: $number_of_volumes"
-    tr=$(fslval ${file_task}.nii.gz pixdim4)
+    tr=$(fslval ${file_task} pixdim4)
     echo "TR: $tr"
     # Detect cardiac peaks, visual check, save timepoints.
     python3 ${PATH_SCRIPTS}/detect_peak_pnm.py -i ${file_physio}.physio -o ${file_physio}_peak.txt -min-peak-dist 68 # TO CHANGE IF DOESN'T WORK
