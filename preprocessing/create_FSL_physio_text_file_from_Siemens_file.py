@@ -275,6 +275,7 @@ def create_FSL_physio_text_file_from_Siemens_file(pulse_fname, resp_fname, json_
         ax.set_yticklabels([])
 
     plt.tight_layout()
+    name = os.path.basename(json_fname).replace('.json', '')
     plt.savefig(f"{name}_physio_resp_plot.png", dpi=300, bbox_inches="tight")
     plt.close(fig)
 
@@ -282,7 +283,7 @@ def create_FSL_physio_text_file_from_Siemens_file(pulse_fname, resp_fname, json_
     physio_data = np.column_stack((time_vector, resp_vector, trigger_vector, pulse_vector))
     #print(os.path.basename(json_fname))
     #print(os.getcwd())
-    name = os.path.basename(json_fname).replace('.json', '')
+    
     np.savetxt(f"{name}.physio", physio_data, fmt='%.9f', delimiter='\t')
     print(f"Saved FSL physio file: {name}.physio")
     return time_vector, pulse_vector, trigger_vector, resp_vector
