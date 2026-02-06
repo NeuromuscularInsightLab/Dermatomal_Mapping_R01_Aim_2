@@ -87,33 +87,6 @@ output_path=${output_path}/${subject}
 
 mkdir -p ${output_path}
 
-#mkdir -p ${output_path}/ses-brain21Ch${session}
-#mkdir -p ${output_path}/ses-brain21Ch${session}/anat
-#mkdir -p ${output_path}/ses-brain21Ch${session}/func
-#mkdir -p ${output_path}/ses-brain21Ch${session}/fmap
-
-#mkdir -p ${output_path}/ses-spinalcord21Ch${session}
-#mkdir -p ${output_path}/ses-spinalcord21Ch${session}/anat
-#mkdir -p ${output_path}/ses-spinalcord21Ch${session}/dwi
-#mkdir -p ${output_path}/ses-spinalcord21Ch${session}/func
-#mkdir -p ${output_path}/ses-spinalcord21Ch${session}/fmap
-
-#mkdir -p ${output_path}/ses-brain56Ch${session}
-#mkdir -p ${output_path}/ses-brain56Ch${session}/anat
-#mkdir -p ${output_path}/ses-brain56Ch${session}/func
-#mkdir -p ${output_path}/ses-brain56Ch${session}/fmap
-
-#mkdir -p ${output_path}/ses-spinalcord56Ch${session}
-#mkdir -p ${output_path}/ses-spinalcord56Ch${session}/anat
-#mkdir -p ${output_path}/ses-spinalcord56Ch${session}/dwi
-#mkdir -p ${output_path}/ses-spinalcord56Ch${session}/func
-#mkdir -p ${output_path}/ses-spinalcord56Ch${session}/fmap
-
-#mkdir -p ${output_path}/ses-brain${session}
-#mkdir -p ${output_path}/ses-brain${session}/anat
-#mkdir -p ${output_path}/ses-brain${session}/func
-#mkdir -p ${output_path}/ses-brain${session}/fmap
-
 mkdir -p ${output_path}/ses-spinalcord${session}
 mkdir -p ${output_path}/ses-spinalcord${session}/anat
 #mkdir -p ${output_path}/ses-spinalcord${session}/dwi
@@ -127,7 +100,7 @@ data_path=`pwd`
 
 # Copy data to home directory for analysis
 temp_folder=${subject}_temp`date +%Y%m%d%H%M%S`
-temp_folder=sub-DMAim2HC001_temp20260206124813
+#temp_folder=sub-DMAim2HC001_temp20260206124813
 analysis_path=${HOME}/${temp_folder} #/${folder}
 echo ${analysis_path}
 mkdir -p ${analysis_path}
@@ -142,12 +115,12 @@ echo ${analysis_path}
 if [ -d ${analysis_path} ]; then
   cd ${analysis_path}
   echo Converting ${analysis_path} to NIFTI
-  dir=./*/imaging
+  dir=imaging
   #cd ./${dir}
   rm -rf ./nii_${dir}
   mkdir -p ./nii_${dir}
   echo Converting ${dir} to NIFTI
-  dcm2niix -b y  -f %s -z y -x n -v y -o ./nii_${dir} ./${dir}
+  dcm2niix -b y  -f %s -z y -x n -v y -o ./nii_${dir} ./*/${dir}
 
 else
   echo Skipping ${analysis_path}/. Folder does not exist.
@@ -281,8 +254,8 @@ done
 ###########################################################################################
 #base_path=$(basename "${output_path}")
 label_path="$HOME/nilab/Dermatomal_Mapping_R01/Aim2/data/BIDS/derivatives/labels"
-mkdir -p ${label_path}/${subject}/biopac/
+mkdir -p ${label_path}/${subject}/ses-spinalcord/biopac/
 
-cp -r ${base_path}/raw/${subject}/biopac/*.acq ${label_path}/${subject}/biopac/
+cp -r ${analysis_path}/${subject}/biopac/*.acq ${label_path}/${subject}/ses-spinalcord/biopac/
 
 exit 0
