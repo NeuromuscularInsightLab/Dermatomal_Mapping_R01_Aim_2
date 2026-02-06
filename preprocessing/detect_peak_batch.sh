@@ -83,7 +83,7 @@ for file_physio in "${physio_files[@]}";do
     tr=$(fslval ${file_task} pixdim4)
     echo "TR: $tr"
     # Detect cardiac peaks, visual check, save timepoints.
-    python3 ${PATH_SCRIPTS}/detect_peak_pnm.py -i ${file_physio}.physio -o ${file_physio}_peak.txt -min-peak-dist 68 # TO CHANGE IF DOESN'T WORK
+    python3 ${PATH_SCRIPTS}/detect_peak_pnm.py -i ${file_physio}.physio -o ${file_physio}_peak.txt -min-peak-dist 45 # TO CHANGE IF DOESN'T WORK
     # Create a derivatives diretory in data_processed to physio file with peaks
     mkdir -p $PATH_DATA_PROCESSED/derivatives/labels/${SUBJECT}/func
     # Copy the cardiac peaks file to derivatives
