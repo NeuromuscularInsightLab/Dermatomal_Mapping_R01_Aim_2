@@ -13,7 +13,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.backend_bases import PickEvent
-from scipy.signal import butter, lfilter, find_peaks
+from scipy.signal import butter, lfilter, find_peaks, filtfilt
 
 
 
@@ -114,6 +114,11 @@ def main():
     fcuthigh = 2   # high cut frequency in Hz
     b_filt, a_filt = butter(1, [fcutlow/(100/2), fcuthigh/(100/2)], 'bandpass')
     data_cardiac_bd = lfilter(b_filt, a_filt, data_cardiac)
+
+    fcutlow = 0.5   # low cut frequency in Hz
+    fcuthigh = 5   # high cut frequency in Hz
+    b_filt, a_filt = butter(3, [fcutlow/(100/2), fcuthigh/(100/2)], 'bandpass')
+    data_cardiac_bd = filtfilt(b_filt, a_filt, data_cardiac)
 
     # Select a minimum peak distance
     min_peak_dist = args.min_peak_dist
