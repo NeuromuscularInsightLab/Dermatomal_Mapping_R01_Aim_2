@@ -453,7 +453,7 @@ if [[ $SES == *"spinalcord"* ]];then
           vol="$(printf "vol%04d" ${k})"
           ${SCT_EXEC}sct_apply_transfo -i ${vol}.nii.gz -d ${SCT_DIR}/data/PAM50/template/PAM50_t2.nii.gz -w warp_${file_task_mc2_mean}2PAM50_t2.nii.gz -o ${vol}2template.nii.gz -x spline
           #fslmaths ${vol}2template.nii.gz -mul ${SCT_EXEC}${SCT_DIR}/data/PAM50/template/PAM50_cord.nii.gz ${vol}2template.nii.gz
-          sct_maths -i ${vol}2template.nii.gz -mul ${SCT_DIR}/data/PAM50/template/PAM50_cord.nii.gz -o ${vol}2template.nii.gz
+          ${SCT_EXEC}sct_maths -i ${vol}2template.nii.gz -mul ${SCT_DIR}/data/PAM50/template/PAM50_cord.nii.gz -o ${vol}2template.nii.gz
           fslroi ${vol}2template.nii.gz ${vol}2template.nii.gz 32 75 34 75 691 263
       done
       v="vol????2template.nii.gz"
