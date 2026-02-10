@@ -33,3 +33,16 @@ conda activate venv-dm
 cd Dermatomal_Mapping_R01_Aim_2/preprocessing
 bash convert_dcm2bids.sh -f ~/nilab/Dermatomal_Mapping_R01/Aim2/data/raw/sub-DMAim2HC001/ -s sub-DMAim2HC001 -o ~/nilab/Dermatomal_Mapping_R01/Aim2/data/raw/sub-DMAim2HC001/
 ~~~
+
+## 4.Peak detection
+
+## 5.Preprocessing
+
+~~~
+sct_run_batc
+h -script preprocess_spinal_cord.sh -path-data ~/nilab/Dermatomal_Mapping_R01/Aim2/data/BIDS
+/sourcedata/ -path-out ~/dm_aim2_preprocessing_test -path-segmanual ~/nilab/Dermatomal_Mappi
+ng_R01/Aim2/data/BIDS/derivatives/labels
+~~~
+
+
