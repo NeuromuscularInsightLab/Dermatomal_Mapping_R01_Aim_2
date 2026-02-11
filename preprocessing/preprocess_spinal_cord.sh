@@ -44,6 +44,7 @@ path_source=$(dirname $PATH_DATA)
 # Get path of script repository
 PATH_SCRIPTS=$PWD
 
+
 # CONVENIENCE FUNCTIONS
 # ======================================================================================================================
 segment_if_does_not_exist() {
@@ -241,7 +242,7 @@ if [[ $SES == *"spinalcord"* ]];then
     cd ../func
 
   
-    runs=(leftpinky rightpinky leftthumb rightthumb leftmiddle rightmiddle)
+    runs=(rightthumb leftthumb rightmiddle leftmiddle rightpinky leftpinky)
 
     for run in "${runs[@]}";do
 
@@ -406,7 +407,7 @@ if [[ $SES == *"spinalcord"* ]];then
         fi
     	  popp -i ${file_physio}_peak.txt -o physio -s 100 --tr=${tr} --smoothcard=0.1 --smoothresp=0.1 --resp=2 --cardiac=5 --trigger=3 -v --pulseox_trigger
         # Run PNM using manual peak detections in derivatives
-        pnm_evs -i ${file_task}.nii.gz -c physio_card.txt -r physio_resp.txt -o physio_ --tr=${tr} --oc=4 --or=4 --multc=2 --multr=2 --slicetiming=${PATH_SCRIPTS}/spinal_cord_slice_timing.txt
+        pnm_evs -i ${file_task}.nii.gz -c physio_card.txt -r physio_resp.txt -o physio_ --tr=${tr} --oc=4 --or=4 --multc=2 --multr=2 --sliceorder=interleaved_up
 
       fi
       mv physio* ./PNM_run-${run}
@@ -441,7 +442,7 @@ if [[ $SES == *"spinalcord"* ]];then
       fi
 
       #slice_timing after PNM
-      slicetimer -i ${file_task_mc2}_pnm -o ${file_task_mc2}_pnm_stc --tcustom=${PATH_SCRIPTS}/spinal_cord_slice_timing.txt. # TODO: check for slicetiming
+      slicetimer -i ${file_task_mc2}_pnm -o ${file_task_mc2}_pnm_stc --repeat=${tr} --odd  # interleaved ascending (bottom-up)
   
 
       # Warp 4D to template
@@ -481,24 +482,39 @@ if [[ $SES == *"spinalcord"* ]];then
       ###############################
      #rsync the folder fsl_stim_vectors:
       #PATH_VECTORS="${PATH_SEGMANUAL}/${SUBJECT}/func/fsl_stim_vectors/"
-      PATH_VECTORS="${PATH_SEGMANUAL}/${sub_id}/fsl_stim_vectors"
+      PATH_BIOPAC="$(dirname "$PATH_SCRIPTS")"
+      PATH_VECTORS="${PATH_BIOPAC}/biopac/fsl_stim_vectors"
       echo ${PATH_VECTORS}
-
+      stim_acq_file=$(ls -1 "${PATH_SEGMANUAL}/${SUBJECT}/biopac/${sub_id}_task-tens_run-${run}_acq"*.acq)
+      echo ${stim_acq_file}
+      if [[ -e ${stim_acq_file} ]]; then
+        rsync -avzh ${stim_acq_file} ${PATH_DATA_PROCESSED}/${SUBJECT}/func/run-${run}/
+      else
+        echo "No stim acq file found in the derivatives."
+      fi
+      #Get the stim parameter to cp the correct stim files:
+      stim_acq_file="$(basename "$stim_acq_file")"
+      stim_parameters=`echo ${stim_acq_file} | awk -F 'acq-' '{print $2}' | awk -F '.acq' '{print $1}'`
       # Create variable with filename to  min max of amp and export to feat
+      # If fsl_stim_vectors folder exists, remove it
+      if [[ -d fsl_stim_vectors ]]; then
+        rm -rf fsl_stim_vectors
+      fi
+      mkdir -p fsl_stim_vectors
       if [[ -d ${PATH_VECTORS} ]]; then
-        cp -r ${PATH_VECTORS} ${PATH_DATA_PROCESSED}/${SUBJECT}/func/run-${run}
+        cp ${PATH_VECTORS}/*${stim_parameters}*.txt ${PATH_DATA_PROCESSED}/${SUBJECT}/func/run-${run}/fsl_stim_vectors/
         # todo rsync
       else
         echo "fsl_stim_vectors not found."
       fi
-
-      #cp -r ${PATH_VECTORS} ${PATH_DATA_PROCESSED}/${SUBJECT}/func/run-${run}
-
-      cd ${PATH_VECTORS}
-
-      stim_file=*_stim_amp_1.txt
-      stim_parameters=`echo ${stim_file} | awk -F 'fsl_stim_vector_' '{print $2}' | awk -F '_stim_amp' '{print $1}'`
-
+      cd fsl_stim_vectors
+      # Add subject if in name:
+      for file in *.txt; do
+          cp ${file} ${sub_id}_${file}
+      done
+      #update stim_parameters variable to get the correct file name for feat
+      stim_file=$(ls -1 *_stim_1.txt)
+      stim_parameters=`echo ${stim_file} | awk -F 'fsl_stim_vector_' '{print $2}' | awk -F 'hz_stim' '{print $1}'`
 
       cd ${PATH_DATA_PROCESSED}/${SUBJECT}/func/run-${run}
       echo ${PATH_DATA_PROCESSED}/${SUBJECT}/func/run-${run}
@@ -507,27 +523,9 @@ if [[ $SES == *"spinalcord"* ]];then
       subject=${sub_id}
       analysis_path=$PATH_DATA_PROCESSED/${subject}
       region="spinalcord"
-      session="01" # TODO change if multiple sessions
+      session="" # TODO change if multiple sessions
       smoothing=0
-      export analysis_path subject coil session smoothing run func_data region tr number_of_volumes stim_parameters confoundevs
-      # envsubst < "${PATH_SCRIPTS}/first_level.fsf" > "${func_data}_first_level.fsf"
-      
-      # # Remove existing feat repo if already exists
-      # if [[ -d "${func_data}_first_level.feat" ]]; then
-      #   rm -r "${func_data}_first_level.feat"
-      # fi
-      # feat ${func_data}_first_level.fsf
-
-      # # Create false registration 
-      # ################################
-      # cd ${func_data}_first_level.feat
-
-      # mkdir -p reg
-      # cp /usr/local/fsl/etc/flirtsch/ident.mat reg/example_func2standard.mat
-      # cp example_func.nii.gz reg/example_func.nii.gz
-      # cp $SCT_DIR/data/PAM50/template/PAM50_t2s.nii.gz reg/standard.nii.gz
-      # fslmaths reg/standard.nii.gz -mas $SCT_DIR/data/PAM50/template/PAM50_cord.nii.gz reg/standard_masked.nii.gz
-      # fslroi reg/standard_masked.nii.gz reg/standard.nii.gz 32 75 34 75 691 263
+      coil="" # TODO add coil info if needed
 
       cd ${PATH_DATA_PROCESSED}/${SUBJECT}/func/run-${run}
       #Run first-level trialwise analysis
