@@ -153,13 +153,13 @@ set fmri(mixed_yn) 3
 set fmri(randomisePermutations) 5000
 
 # Number of EVs
-set fmri(evs_orig) 4
-set fmri(evs_real) 4
+set fmri(evs_orig) 1
+set fmri(evs_real) 1
 set fmri(evs_vox) 0
 
 # Number of contrasts
 set fmri(ncon_orig) 1
-set fmri(ncon_real) 13
+set fmri(ncon_real) 1
 
 # Number of F-tests
 set fmri(nftests_orig) 0
@@ -264,6 +264,10 @@ set fmri(regstandard_nonlinear_warpres) 10
 
 # High pass filter cutoff
 set fmri(paradigm_hp) 150
+
+# Total voxels
+set fmri(totalVoxels) 1479375
+
 
 # Number of lower-level copes feeding into higher-level analysis
 set fmri(ncopeinputs) 0
@@ -403,7 +407,7 @@ set fmri(ortho1.0) 0
 set fmri(ortho1.1) 0
 
 # Higher-level EV value for EV 1 and input 1
-set fmri(evg1.1) 1
+set fmri(evg1.1) 1.0
 
 # Higher-level EV value for EV 1 and input 2
 set fmri(evg2.1) 1.0

@@ -1520,7 +1520,7 @@ set fmri(tempfilt_yn10) 1
 set fmri(deriv_yn10) 0
 
 # Custom EV file (EV 10)
-set fmri(custom10)  "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_10.txt"
+set fmri(custom10) "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_10.txt"
 
 # Gamma sigma (EV 10)
 set fmri(gammasigma10) 3
@@ -1654,7 +1654,7 @@ set fmri(tempfilt_yn11) 1
 set fmri(deriv_yn11) 0
 
 # Custom EV file (EV 11)
-set fmri(custom11)  "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_11.txt"
+set fmri(custom11) "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_11.txt"
 
 # Gamma sigma (EV 11)
 set fmri(gammasigma11) 3
@@ -1788,7 +1788,7 @@ set fmri(tempfilt_yn12) 1
 set fmri(deriv_yn12) 0
 
 # Custom EV file (EV 12)
-set fmri(custom12)  "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_12.txt"
+set fmri(custom12) "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_12.txt"
 
 # Gamma sigma (EV 12)
 set fmri(gammasigma12) 3
@@ -1922,7 +1922,7 @@ set fmri(tempfilt_yn13) 1
 set fmri(deriv_yn13) 0
 
 # Custom EV file (EV 13)
-set fmri(custom13)  "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_13.txt"
+set fmri(custom13) "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_13.txt"
 
 # Gamma sigma (EV 13)
 set fmri(gammasigma13) 3
@@ -2056,7 +2056,7 @@ set fmri(tempfilt_yn14) 1
 set fmri(deriv_yn14) 0
 
 # Custom EV file (EV 14)
-set fmri(custom14)  "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_14.txt"
+set fmri(custom14) "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_14.txt"
 
 # Gamma sigma (EV 14)
 set fmri(gammasigma14) 3
@@ -2190,7 +2190,7 @@ set fmri(tempfilt_yn15) 1
 set fmri(deriv_yn15) 0
 
 # Custom EV file (EV 15)
-set fmri(custom15)  "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_15.txt"
+set fmri(custom15) "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_15.txt"
 
 # Gamma sigma (EV 15)
 set fmri(gammasigma15) 3
@@ -2324,7 +2324,7 @@ set fmri(tempfilt_yn16) 1
 set fmri(deriv_yn16) 0
 
 # Custom EV file (EV 16)
-set fmri(custom16)  "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_16.txt"
+set fmri(custom16) "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_16.txt"
 
 # Gamma sigma (EV 16)
 set fmri(gammasigma16) 3
@@ -2458,7 +2458,7 @@ set fmri(tempfilt_yn17) 1
 set fmri(deriv_yn17) 0
 
 # Custom EV file (EV 17)
-set fmri(custom17)  "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_17.txt"
+set fmri(custom17) "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_17.txt"
 
 # Gamma sigma (EV 17)
 set fmri(gammasigma17) 3
@@ -2592,7 +2592,7 @@ set fmri(tempfilt_yn18) 1
 set fmri(deriv_yn18) 0
 
 # Custom EV file (EV 18)
-set fmri(custom18)  "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_18.txt"
+set fmri(custom18) "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_18.txt"
 
 # Gamma sigma (EV 18)
 set fmri(gammasigma18) 3
@@ -2726,7 +2726,7 @@ set fmri(tempfilt_yn19) 1
 set fmri(deriv_yn19) 0
 
 # Custom EV file (EV 19)
-set fmri(custom19)  "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_19.txt"
+set fmri(custom19) "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_19.txt"
 
 # Gamma sigma (EV 19)
 set fmri(gammasigma19) 3
@@ -2860,7 +2860,7 @@ set fmri(tempfilt_yn20) 1
 set fmri(deriv_yn20) 0
 
 # Custom EV file (EV 20)
-set fmri(custom20)  "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_20.txt"
+set fmri(custom20) "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_20.txt"
 
 # Gamma sigma (EV 20)
 set fmri(gammasigma20) 3
@@ -2994,7 +2994,7 @@ set fmri(tempfilt_yn21) 1
 set fmri(deriv_yn21) 0
 
 # Custom EV file (EV 21)
-set fmri(custom21)  "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_21.txt"
+set fmri(custom21) "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_21.txt"
 
 # Gamma sigma (EV 21)
 set fmri(gammasigma21) 3
@@ -3128,7 +3128,7 @@ set fmri(tempfilt_yn22) 1
 set fmri(deriv_yn22) 0
 
 # Custom EV file (EV 22)
-set fmri(custom22)  "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_22.txt"
+set fmri(custom22) "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_22.txt"
 
 # Gamma sigma (EV 22)
 set fmri(gammasigma22) 3
@@ -3262,7 +3262,8 @@ set fmri(tempfilt_yn23) 1
 set fmri(deriv_yn23) 0
 
 # Custom EV file (EV 23)
-set fmri(custom23)  "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_24.txt"
+set fmri(custom23) "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_24.txt"
+
 # Gamma sigma (EV 23)
 set fmri(gammasigma23) 3
 
@@ -3395,7 +3396,7 @@ set fmri(tempfilt_yn24) 1
 set fmri(deriv_yn24) 0
 
 # Custom EV file (EV 24)
-set fmri(custom24)  "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_24.txt"
+set fmri(custom24) "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_24.txt"
 
 # Gamma sigma (EV 24)
 set fmri(gammasigma24) 3
@@ -3529,7 +3530,7 @@ set fmri(tempfilt_yn25) 1
 set fmri(deriv_yn25) 0
 
 # Custom EV file (EV 25)
-set fmri(custom25)  "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_25.txt"
+set fmri(custom25) "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/fsl_stim_vectors/${subject}_fsl_stim_vector_${stim_parameters}hz_stim_25.txt"
 
 # Gamma sigma (EV 25)
 set fmri(gammasigma25) 3
