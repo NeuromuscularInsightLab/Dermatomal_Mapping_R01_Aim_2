@@ -276,7 +276,7 @@ set fmri(ncopeinputs) 0
 set feat_files(1) "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/${func_data}"
 
 # Add confound EVs text file
-set fmri(confoundevs) 1
+set fmri(confoundevs) ${confoundevs}
 
 # Confound EVs text file for analysis 1
 set confoundev_files(1) "${analysis_path}/ses-${region}${coil}${session}/func/run-${run}/${subject}_ses-${region}${coil}_task-tens_run-${run}_bold_motion_outliers.txt"

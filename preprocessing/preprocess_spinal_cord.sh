@@ -509,8 +509,8 @@ if [[ $SES == *"spinalcord"* ]];then
       fi
       cd fsl_stim_vectors
       # Add subject if in name:
-      for file in *.txt; do
-          cp ${file} ${sub_id}_${file}
+      for file_stim in *.txt; do
+          mv ${file_stim} ${sub_id}_${file_stim}
       done
       #update stim_parameters variable to get the correct file name for feat
       stim_file=$(ls -1 *_stim_1.txt)
