@@ -112,14 +112,14 @@ def main():
     # Bandpass data cardio
     fcutlow = 0.5   # low cut frequency in Hz
     fcuthigh = 2   # high cut frequency in Hz
-    b_filt, a_filt = butter(1, [fcutlow/(100/2), fcuthigh/(100/2)], 'bandpass')
-    data_cardiac_bd = lfilter(b_filt, a_filt, data_cardiac)
-
-    fcutlow = 0.5   # low cut frequency in Hz
-    fcuthigh = 5   # high cut frequency in Hz
-    b_filt, a_filt = butter(3, [fcutlow/(100/2), fcuthigh/(100/2)], 'bandpass')
+    b_filt, a_filt = butter(1, [fcutlow/(50/2), fcuthigh/(50/2)], 'bandpass')
     data_cardiac_bd = filtfilt(b_filt, a_filt, data_cardiac)
+    #data_cardiac_bd = lfilter(b_filt, a_filt, data_cardiac)
 
+   # fcutlow = 0.5   # low cut frequency in Hz
+  #  fcuthigh = 5   # high cut frequency in Hz
+   # b_filt, a_filt = butter(3, [fcutlow/(50/2), fcuthigh/(50/2)], 'bandpass')
+    #data_cardiac_bd = data_cardiac
     # Select a minimum peak distance
     min_peak_dist = args.min_peak_dist
 
