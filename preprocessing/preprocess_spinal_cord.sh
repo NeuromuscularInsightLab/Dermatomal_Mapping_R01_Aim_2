@@ -454,7 +454,6 @@ if [[ $SES == *"spinalcord"* ]];then
       for ((k=0; k<=$last_volume; k++));do
           vol="$(printf "vol%04d" ${k})"
           ${SCT_EXEC}sct_apply_transfo -i ${vol}.nii.gz -d ${SCT_DIR}/data/PAM50/template/PAM50_t2.nii.gz -w warp_${file_task_mc2_mean}2PAM50_t2.nii.gz -o ${vol}2template.nii.gz -x spline
-          #fslmaths ${vol}2template.nii.gz -mul ${SCT_EXEC}${SCT_DIR}/data/PAM50/template/PAM50_cord.nii.gz ${vol}2template.nii.gz
           ${SCT_EXEC}sct_maths -i ${vol}2template.nii.gz -mul ${SCT_DIR}/data/PAM50/template/PAM50_cord.nii.gz -o ${vol}2template.nii.gz
           fslroi ${vol}2template.nii.gz ${vol}2template.nii.gz 32 75 34 75 691 263
       done
@@ -463,10 +462,6 @@ if [[ $SES == *"spinalcord"* ]];then
       rm $v
       v=vol????.nii.gz
       rm $v
-      #${SCT_EXEC}sct_apply_transfo -i ${file_task_mc2}_pnm_stc.nii.gz -d ${SCT_DIR}/data/PAM50/template/PAM50_t2.nii.gz -w warp_${file_task_mc2_mean}2PAM50_t2.nii.gz -o ${file_task_mc2}_pnm_stc2template.nii.gz -x spline
-      
-      #fslmaths ${file_task_mc2}_pnm_stc2template.nii.gz -mul ${SCT_EXEC}${SCT_DIR}/data/PAM50/template/PAM50_cord.nii.gz ${file_task_mc2}_pnm_stc2template.nii.gz
-      #fslroi ${file_task_mc2}_pnm_stc2template.nii.gz ${file_task_mc2}_pnm_stc2template.nii.gz 32 75 34 75 691 263
 
       # Remove outside voxels based on spinal cord mask z limits
       ${SCT_EXEC}sct_apply_transfo -i ${file_task_mc2_mean_seg}.nii.gz -d ${SCT_DIR}/data/PAM50/template/PAM50_t2.nii.gz -w warp_${file_task_mc2_mean}2PAM50_t2.nii.gz -o ${file_task_mc2_mean_seg}2template.nii.gz -x nn
@@ -543,8 +538,9 @@ if [[ $SES == *"spinalcord"* ]];then
       mkdir -p reg
       cp /usr/local/fsl/etc/flirtsch/ident.mat reg/example_func2standard.mat
       cp example_func.nii.gz reg/example_func.nii.gz
-      cp $SCT_DIR/data/PAM50/template/PAM50_t2s.nii.gz reg/standard.nii.gz
-      fslmaths reg/standard.nii.gz -mas $SCT_DIR/data/PAM50/template/PAM50_cord.nii.gz reg/standard_masked.nii.gz
+      $SCT_EXEC cp $SCT_DIR/data/PAM50/template/PAM50_t2s.nii.gz reg/standard.nii.gz
+      $SCT_EXEC cp $SCT_DIR/data/PAM50/template/PAM50_cord.nii.gz reg/.
+      fslmaths reg/standard.nii.gz -mas reg/PAM50_cord.nii.gz reg/standard_masked.nii.gz
       fslroi reg/standard_masked.nii.gz reg/standard.nii.gz 32 75 34 75 691 263
 
       cd ${PATH_DATA_PROCESSED}/${SUBJECT}/func/run-${run}
@@ -565,24 +561,8 @@ if [[ $SES == *"spinalcord"* ]];then
 fi
 
 #Copy PAM50 template for masking the group level results
-cp $SCT_DIR/data/PAM50/template/PAM50_cord.nii.gz PAM50_cord.nii.gz
+${SCT_EXEC} cp $SCT_DIR/data/PAM50/template/PAM50_cord.nii.gz PAM50_cord.nii.gz
 fslroi PAM50_cord.nii.gz PAM50_cord_cropped.nii.gz 32 75 34 75 691 263
-
-
-# subject=$(dirname "$SUBJECT")
-# analysis_path=$PATH_DATA_PROCESSED/${subject}
-# region="spinalcord"
-# session="01" # TODO change if multiple sessions
-# #average
-# export analysis_path subject session run func_data region smoothing
-# envsubst < "${PATH_SCRIPTS}/first_level_average.fsf" > "${subject}_${region}_first_level_average.fsf"
-# feat ${subject}_${region}_first_level_average.fsf
-
-# #trialwise average
-# export analysis_path subject session run func_data region smoothing
-# envsubst < "${PATH_SCRIPTS}/second_level_trialwise_average.fsf" > "${subject}_${region}_second_level_trialwise_average.fsf"
-# feat ${subject}_${region}_second_level_trialwise_average.fsf
-
 
 
 # Verify presence of output files and write log file if error
@@ -608,7 +588,7 @@ end=`date +%s`
 runtime=$((end-start))
 echo
 echo "~~~"
-echo "SCT version: `sct_version`"
+echo "SCT version: `${SCT_EXEC}sct_version`"
 echo "Ran on:      `uname -nsr`"
 echo "Duration:    $(($runtime / 3600))hrs $((($runtime / 60) % 60))min $(($runtime % 60))sec"
 echo "~~~"
