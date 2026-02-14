@@ -12,15 +12,37 @@
 
 * Create python environment
 ~~~
-conda create --name Dermatomal_Mapping_R01_Aim_2 python==3.9
+conda create --name venv-dm python==3.9
 ~~~
 
 * Activate environment
 ~~~
-conda activate Dermatomal_Mapping_R01_Aim_2
+conda activate venv-dm
 ~~~
 
 * Install requirements
 ~~~
 pip install -r requirements.txt
 ~~~
+
+
+## 3. Data Conversion
+
+~~~
+conda activate venv-dm
+cd Dermatomal_Mapping_R01_Aim_2/preprocessing
+bash convert_dcm2bids.sh -f ~/nilab/Dermatomal_Mapping_R01/Aim2/data/raw/sub-DMAim2HC001/ -s sub-DMAim2HC001 -o ~/nilab/Dermatomal_Mapping_R01/Aim2/data/raw/sub-DMAim2HC001/
+~~~
+
+## 4.Peak detection
+
+## 5.Preprocessing
+
+~~~
+sct_run_batc
+h -script preprocess_spinal_cord.sh -path-data ~/nilab/Dermatomal_Mapping_R01/Aim2/data/BIDS
+/sourcedata/ -path-out ~/dm_aim2_preprocessing_test -path-segmanual ~/nilab/Dermatomal_Mappi
+ng_R01/Aim2/data/BIDS/derivatives/labels
+~~~
+
+
