@@ -199,7 +199,10 @@ for file in *.json; do
     cp ${filename}.json ${output_path}/ses-spinalcord${session}/anat/${subject}_ses-spinalcord${session}_acq-${acq}_T2w.json
     cp ${filename}.nii.gz ${output_path}/ses-spinalcord${session}/anat/${subject}_ses-spinalcord${session}_acq-${acq}_T2w.nii.gz
 
-
+  elif [[ ${series} == *"T2w_c-spine"* ]]; then
+    cp ${filename}.json ${output_path}/ses-spinalcord${session}/anat/${subject}_ses-spinalcord${session}_acq-cervical_T2w.json
+    cp ${filename}.nii.gz ${output_path}/ses-spinalcord${session}/anat/${subject}_ses-spinalcord${session}_acq-cervical_T2w.nii.gz
+  
   elif [[ ${series} == *"T2w_clinical"* ]]; then
     cp ${filename}.json ${output_path}/ses-spinalcord${session}/anat/${subject}_ses-spinalcord${session}_acq-sag_T2w.json
     cp ${filename}.nii.gz ${output_path}/ses-spinalcord${session}/anat/${subject}_ses-spinalcord${session}_acq-sag_T2w.nii.gz
