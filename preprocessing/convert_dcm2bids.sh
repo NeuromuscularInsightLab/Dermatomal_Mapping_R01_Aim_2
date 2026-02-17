@@ -134,7 +134,8 @@ echo ${dir}
 cd ${analysis_path}/nii_${dir}
 echo ${analysis_path}/nii_${dir}
 
-for file in *.json; do  
+#for file in *.json; do  
+for file in $(printf '%s\n' *.json | sort -V); do
   echo ${file}
   filename=${file::-5}
   
@@ -143,7 +144,6 @@ for file in *.json; do
   else
     series="No *json file in ${dir}"   
   fi
-
 
   echo $series
       
