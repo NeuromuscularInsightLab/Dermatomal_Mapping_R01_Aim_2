@@ -264,7 +264,7 @@ if [[ $SES == *"spinalcord"* ]];then
           echo "Number of volumes before"
           echo $(fslval ${file_task} dim4)
           if [ $(fslval ${file_task} dim4) == 137 ]; then
-            fslroi ${file_task} ${file_task} 3 -1
+            fslroi ${file_task} ${file_task} 1 -1
           fi
           # Get dims
           number_of_volumes=$(fslval ${file_task} dim4)
