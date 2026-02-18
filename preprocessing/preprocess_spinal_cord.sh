@@ -331,8 +331,6 @@ if [[ $SES == *"spinalcord"* ]];then
             mv Tx.nii.gz ./PNM_run-${run}
             mv Ty.nii.gz ./PNM_run-${run}
 
-            # Create QC report for TSNR:
-            ${SCT_EXEC}sct_qc -i ${file_task}_tsnr.nii.gz -d ${file_task}_mc2_tsnr.nii.gz -s ${file_task_mean}_label-SC_seg.nii.gz -p sct_fmri_compute_tsnr -qc ${PATH_QC} -qc-subject ${SUBJECT}
           fi
           # Create spinal cord mask and spinal canal mask
           file_task_mc2=${file_task}_mc2
@@ -363,6 +361,8 @@ if [[ $SES == *"spinalcord"* ]];then
       #segment_if_does_not_exist ${file_task_mc2_mean} 't2' 'deepseg' 'func'
 
       file_task_mc2_mean_seg="${file_task_mc2_mean}_label-SC_seg"
+      # Create QC report for TSNR:
+      ${SCT_EXEC}sct_qc -i ${file_task}_tsnr.nii.gz -d ${file_task}_mc2_tsnr.nii.gz -s ${file_task_mc2_mean_seg}.nii.gz -p sct_fmri_compute_tsnr -qc ${PATH_QC} -qc-subject ${SUBJECT}
 
       # QC for motion correction
       ${SCT_EXEC}sct_qc -i ${file_task_mc2}.nii.gz -p sct_fmri_moco -qc ${PATH_QC} -s ${file_task_mc2_mean_seg}.nii.gz -d  ${file_task}.nii.gz -qc-subject ${SUBJECT}
