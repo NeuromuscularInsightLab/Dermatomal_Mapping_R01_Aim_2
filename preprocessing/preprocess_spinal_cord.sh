@@ -272,7 +272,8 @@ if [[ $SES == *"spinalcord"* ]];then
           if [[ $NORDIC == "nordic" ]]; then
             # Apply NORDIC denoising
             echo "Applying NORDIC denoising"
-            bash $PATH_SCRIPTS/NORDIC_run_single_file.sh   ${file_task}.nii.gz  ${file_task}.nii.gz  ${PATH_SCRIPTS}/utils
+            bash $PATH_SCRIPTS/NORDIC_run_single_file.sh   $PWD/${file_task}.nii.gz  $PWD/${file_task}_nordic.nii.gz  ${PATH_SCRIPTS}/utils
+            mv ${file_task}_nordic.nii.gz ${file_task}.nii.gz
           fi
 
           # Compute mean image
