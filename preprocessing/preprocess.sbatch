@@ -23,6 +23,7 @@
 
 module load biology
 module load fsl/6.0.7.10
+ml load matlab
 
 export SIF=$HOME/sct_install/sct.sif
 export SCT_EXEC="apptainer exec $SIF "
