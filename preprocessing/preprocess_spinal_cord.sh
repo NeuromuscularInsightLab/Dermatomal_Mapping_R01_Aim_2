@@ -135,8 +135,7 @@ segment_rootlets_if_does_not_exist() {
 
 # Retrieve input params and other params
 SUBJECT=$1
-REG=$2
-REG=$2
+NORDIC=$2
 #tasks="${@:2}"
 # echo "Tasks:"
 # echo $tasks
@@ -269,6 +268,13 @@ if [[ $SES == *"spinalcord"* ]];then
           # Get dims
           number_of_volumes=$(fslval ${file_task} dim4)
           tr=$(fslval ${file_task} pixdim4)
+          
+          if [[ $NORDIC == "nordic" ]]; then
+            # Apply NORDIC denoising
+            echo "Applying NORDIC denoising"
+            bash $PATH_SCRIPTS/NORDIC_run_single_file.sh   $PWD/${file_task}.nii.gz  $PWD/${file_task}_nordic.nii.gz  ${PATH_SCRIPTS}/utils
+            mv ${file_task}_nordic.nii.gz ${file_task}.nii.gz
+          fi
 
           # Compute mean image
           ${SCT_EXEC}sct_maths -i ${file_task}.nii.gz -mean t -o ${file_task}_mean.nii.gz

@@ -32,8 +32,8 @@ export SCT_DIR="/root/sct/"
 #apptainer exec $HOME/sct_install/sct.sif bash -lc "sct_run_batch -script ${path_script}/preprocess_data_spinalcord_anat.sh -path-data ${path_data} -path-output ${output_path} -include $subject -jobs 1"
 PATH_SCRIPTS=$path_script
 
-export PATH_DATA_PROCESSED PATH_RESULTS PATH_LOG PATH_QC PATH_DATA PATH_DERIVATIVES PATH_SCRIPTS SCT_DIR
-bash ${path_script}/preprocess_data_spinalcord.sh $subject/$ses FingerTap
+export PATH_DATA_PROCESSED PATH_RESULTS PATH_LOG PATH_QC PATH_DATA PATH_SEGMANUAL PATH_SCRIPTS SCT_DIR
+bash ${path_script}/preprocess_spinal_cord.sh $subject/$ses $NORDIC
 
 # ret=1
 # c=0

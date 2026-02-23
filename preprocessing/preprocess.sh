@@ -7,6 +7,7 @@ PATH_SEGMANUAL=${SCRATCH}/dm-aim2/derivatives/labels
 output_path=${SCRATCH}/dm-aim2/nordic_param_default_preprocessing_2026-01-30
 subjects=(sub-DMAim2HC001)
 ses=ses-spinalcord01 # Todo to 02 also
+NORDIC="" #nordic
 time_limit=04:00:00
 memory=16000
 
@@ -22,8 +23,8 @@ mkdir -p ${PATH_QC}
 
 for subject in "${subjects[@]}"; do
     echo "Preprocessing data for subject: $subject"
-    export subject path_script PATH_DATA SCRATCH output_path time_limit memory PATH_DATA PATH_DATA_PROCESSED PATH_RESULTS PATH_LOG PATH_QC ses PATH_SEGMANUAL
-    envsubst '${subject} ${path_script} ${PATH_DATA} ${SCRATCH} ${output_path} ${time_limit} ${memory} ${PATH_DATA} ${PATH_DATA_PROCESSED} ${PATH_RESULTS} ${PATH_LOG} ${PATH_QC} ${ses}' < ${path_script}/preprocess.sbatch > preprocess_${subject}.sbatch
+    export subject path_script PATH_DATA SCRATCH output_path time_limit memory PATH_DATA PATH_DATA_PROCESSED PATH_RESULTS PATH_LOG PATH_QC ses PATH_SEGMANUAL NORDIC
+    envsubst '${subject} ${path_script} ${PATH_DATA} ${SCRATCH} ${output_path} ${time_limit} ${memory} ${PATH_DATA} ${PATH_DATA_PROCESSED} ${PATH_RESULTS} ${PATH_LOG} ${PATH_QC} ${ses} ${NORDIC}' < ${path_script}/preprocess.sbatch > preprocess_${subject}.sbatch
     sbatch preprocess_${subject}.sbatch
     rm preprocess_${subject}.sbatch
     sleep 10s
