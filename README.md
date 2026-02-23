@@ -51,6 +51,16 @@ bash convert_dcm2bids.sh -f ~/nilab/Dermatomal_Mapping_R01/Aim2/data/raw/sub-DMA
 
 ## 5.Preprocessing
 
+To run with nordic denoising, add argument "-script-args nordic"
+
+~~~
+sct_run_batc
+h -script preprocess_spinal_cord.sh -path-data ~/nilab/Dermatomal_Mapping_R01/Aim2/data/BIDS
+/sourcedata/ -path-out ~/dm_aim2_preprocessing_test -path-segmanual ~/nilab/Dermatomal_Mappi
+ng_R01/Aim2/data/BIDS/derivatives/labels -script-args nordic
+~~~
+
+Without Nordic:
 ~~~
 sct_run_batc
 h -script preprocess_spinal_cord.sh -path-data ~/nilab/Dermatomal_Mapping_R01/Aim2/data/BIDS
