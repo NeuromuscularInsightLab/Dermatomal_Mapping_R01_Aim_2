@@ -394,9 +394,9 @@ if [[ $SES == *"spinalcord"* ]];then
       mv ${file_task_mc2}_csf_regressor.nii.gz ./PNM_run-${run}
 
       # Create WM regressor
-      fslmaths ./label/template/PAM50_wm.nii.gz -thr 0.9 -bin ${file_task_mc2}_wm_mask
-      ${PATH_SCRIPTS}/create_slicewise_regressor_from_mask.sh -i ${file_task_mc2}.nii.gz -m ${file_task_mc2}_wm_mask.nii.gz -o wm_regressor
-      mv ${file_task_mc2}_wm_regressor.nii.gz ./PNM_run-${run}
+      #fslmaths ./label/template/PAM50_wm.nii.gz -thr 0.9 -bin ${file_task_mc2}_wm_mask
+      #${PATH_SCRIPTS}/create_slicewise_regressor_from_mask.sh -i ${file_task_mc2}.nii.gz -m ${file_task_mc2}_wm_mask.nii.gz -o wm_regressor
+      #mv ${file_task_mc2}_wm_regressor.nii.gz ./PNM_run-${run}
 
 
       #Process physio
