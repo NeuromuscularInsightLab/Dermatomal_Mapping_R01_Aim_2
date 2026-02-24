@@ -542,7 +542,7 @@ if [[ $SES == *"spinalcord"* ]];then
       #Run registration for first level trialwise analysis
       cd ${func_data}_trialwise_first_level.feat
       mkdir -p reg
-      cp /usr/local/fsl/etc/flirtsch/ident.mat reg/example_func2standard.mat
+      cp ${FSLDIR}/etc/flirtsch/ident.mat reg/example_func2standard.mat
       cp example_func.nii.gz reg/example_func.nii.gz
       $SCT_EXEC cp $SCT_DIR/data/PAM50/template/PAM50_t2s.nii.gz reg/standard.nii.gz
       $SCT_EXEC cp $SCT_DIR/data/PAM50/template/PAM50_cord.nii.gz reg/.
