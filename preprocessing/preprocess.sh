@@ -8,8 +8,8 @@ output_path=${SCRATCH}/dm-aim2/nordic_param_default_preprocessing_2026-01-30
 subjects=(sub-DMAim2HC001)
 ses=ses-spinalcord01 # Todo to 02 also
 NORDIC="" #nordic
-time_limit=04:00:00
-memory=16000
+time_limit=15:00:00
+memory=64000
 
 mkdir -p ${output_path}
 PATH_DATA_PROCESSED="${output_path}/data_processed"
