@@ -242,13 +242,20 @@ if [[ $SES == *"spinalcord"* ]];then
     cd ../func
 
   
-    runs=(rightthumb leftthumb rightmiddle leftmiddle rightpinky leftpinky)
-
+    runs=(rest rightthumb leftthumb rightmiddle leftmiddle rightpinky leftpinky)
+    runs=(rest)
     for run in "${runs[@]}";do
 
       cd ${PATH_DATA_PROCESSED}/${SUBJECT}/func/
-      file_task=${file}_task-tens_run-${run}_bold
-      file_physio=${file}_task-tens_run-${run}_physio
+      if [[ $run == "rest" ]]; then
+        #file="${file}_task-rest"
+        file_task=${file}_task-rest_bold
+        file_physio=${file}_task-rest_physio
+      else
+        #file="${file}_task-tens_run-${run}"
+        file_task=${file}_task-tens_run-${run}_bold
+        file_physio=${file}_task-tens_run-${run}_physio
+      fi
       if [[ -f ${file_task}.nii.gz ]];then
           # Create output path for run
           mkdir -p ${PATH_DATA_PROCESSED}/${SUBJECT}/func/run-${run}

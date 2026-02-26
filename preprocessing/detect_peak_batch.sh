@@ -68,7 +68,8 @@ file="${SUBJECT//[\/]/_}"
 
 # Get session
 SES=$(basename "$SUBJECT")
-physio_files=($(ls ${file}_task-tens_run-*_physio.physio 2>/dev/null))
+#physio_files=($(ls ${file}_task-tens_run-*_physio.physio 2>/dev/null))
+physio_files=($(ls ${file}_task-*_physio.physio 2>/dev/null))
 
 # Check if physio files exists
 for file_physio in "${physio_files[@]}";do
