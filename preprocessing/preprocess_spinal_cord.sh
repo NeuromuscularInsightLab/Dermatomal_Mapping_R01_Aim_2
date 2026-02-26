@@ -241,13 +241,18 @@ if [[ $SES == *"spinalcord"* ]];then
     cd ../func
 
   
-    runs=(rightthumb leftthumb rightmiddle leftmiddle rightpinky leftpinky)
+    runs=(rest rightthumb leftthumb rightmiddle leftmiddle rightpinky leftpinky)
 
     for run in "${runs[@]}";do
 
       cd ${PATH_DATA_PROCESSED}/${SUBJECT}/func/
-      file_task=${file}_task-tens_run-${run}_bold
-      file_physio=${file}_task-tens_run-${run}_physio
+      if [[ $run == "rest" ]]; then
+        file_task=${file}_task-rest_bold
+        file_physio=${file}_task-rest_physio
+      else
+        file_task=${file}_task-tens_run-${run}_bold
+        file_physio=${file}_task-tens_run-${run}_physio
+      fi
       if [[ -f ${file_task}.nii.gz ]];then
           # Create output path for run
           mkdir -p ${PATH_DATA_PROCESSED}/${SUBJECT}/func/run-${run}
@@ -478,7 +483,9 @@ if [[ $SES == *"spinalcord"* ]];then
       # Smoothing 2x2x5 mm
       #sigma= 2mm/2.354 = | sigma = 5m/2.354 for 2mm and 5 mm of full width at half maximum (FWHM)
       fslmaths ${file_task_mc2}_pnm_stc2template.nii.gz -s 0.85,0.84,2.124 ${file_task_mc2}_pnm_stc2template_smooth225.nii.gz
-      
+      if [[ $run == "rest" ]]; then
+        continue
+      fi
       # Run first-level analysis
       ###############################
      #rsync the folder fsl_stim_vectors:
