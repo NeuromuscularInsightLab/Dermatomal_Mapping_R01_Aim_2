@@ -601,6 +601,7 @@ FILES_TO_CHECK=(
   "run-leftmiddle/${file}_task-tens_run-leftmiddle_bold_mc2_pnm_stc2template_smooth225.nii.gz"
   "run-leftthumb/${file}_task-tens_run-leftthumb_bold_mc2_pnm_stc2template_smooth225.nii.gz"
   "run-rightthumb/${file}_task-tens_run-rightthumb_bold_mc2_pnm_stc2template_smooth225.nii.gz"
+  "run-rest/${file}_task-rest_bold_mc2_pnm_stc2template_smooth225.nii.gz"
 )
 
 
