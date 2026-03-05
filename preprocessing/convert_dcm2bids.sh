@@ -135,7 +135,7 @@ cd ${analysis_path}/nii_${dir}
 echo ${analysis_path}/nii_${dir}
 
 #for file in *.json; do  
-for file in $(printf '%s\n' *.json | sort -V); do
+for file in $(ls -1v -- *.json); do
   echo ${file}
   filename=${file::-5}
   
@@ -144,7 +144,7 @@ for file in $(printf '%s\n' *.json | sort -V); do
   else
     series="No *json file in ${dir}"   
   fi
-
+  perl -0777 -i -pe 's/"SequenceVariant"\s*:\s*"(?:\\.|[^"\\])*"/"SequenceVariant": "SK"/' *.json
   echo $series
       
 
