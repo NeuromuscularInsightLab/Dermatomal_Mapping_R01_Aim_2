@@ -143,8 +143,7 @@ for file in *.json; do
   else
     series="No *json file in ${dir}"   
   fi
-
-
+  perl -0777 -i -pe 's/"SequenceVariant"\s*:\s*"(?:\\.|[^"\\])*"/"SequenceVariant": "SK"/' *.json
   echo $series
       
 
