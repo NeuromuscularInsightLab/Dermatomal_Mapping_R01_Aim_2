@@ -4,9 +4,9 @@
 path_script=~/codes/Dermatomal_Mapping_R01_Aim_2/preprocessing
 PATH_DATA=${SCRATCH}/dm-aim2/sourcedata
 PATH_SEGMANUAL=${SCRATCH}/dm-aim2/derivatives/labels
-output_path=${SCRATCH}/dm-aim2/nordic_param_default_preprocessing_2026-01-30
-subjects=(sub-DMAim2HC001)
-ses=ses-spinalcord01 # Todo to 02 also
+output_path=${SCRATCH}/dm-aim2/preprocessing_ALL_2026-03-05
+subjects=(sub-DMAim2HC001 sub-DMAim2HC002 sub-DMAim2HC003 sub-DMAim2HC004)
+ses=ses-spinalcord
 NORDIC="" #nordic
 time_limit=15:00:00
 memory=64000
