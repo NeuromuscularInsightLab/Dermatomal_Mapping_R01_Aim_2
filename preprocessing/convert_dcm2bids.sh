@@ -219,7 +219,7 @@ for file in *.json; do
   elif [[ ${series} == *"rest"* ]]; then
     cp ${filename}.json ${output_path}/ses-spinalcord${session}/func/${subject}_ses-spinalcord${session}_task-rest_bold.json
     cp ${filename}.nii.gz ${output_path}/ses-spinalcord${session}/func/${subject}_ses-spinalcord${session}_task-rest_bold.nii.gz
-    python ${path_script}/create_FSL_physio_text_file_from_Siemens_file.py -TR 2.5 -number-of-volumes 134 -pulse ${file_pulse} -resp ${file_resp} -json ${filename}.json
+    python ${path_script}/create_FSL_physio_text_file_from_Siemens_file.py -TR 2.5 -number-of-volumes 136 -pulse ${file_pulse} -resp ${file_resp} -json ${filename}.json
     cp ${filename}.physio ${output_path}/ses-spinalcord${session}/func/${subject}_ses-spinalcord${session}_task-rest_physio.physio
 
   elif ([[ ${series} == *"leftthumb"* ]] || [[ ${series} == *"rightthumb"* ]] || [[ ${series} == *"leftmiddle"* ]] || [[ ${series} == *"rightmiddle"* ]] || [[ ${series} == *"leftpinky"* ]] || [[ ${series} == *"rightpinky"* ]]); then
@@ -240,7 +240,7 @@ for file in *.json; do
     fi    
     cp ${filename}.json ${output_path}/ses-spinalcord${session}/func/${subject}_ses-spinalcord${session}_task-tens_run-${run}_bold.json
     cp ${filename}.nii.gz ${output_path}/ses-spinalcord${session}/func/${subject}_ses-spinalcord${session}_task-tens_run-${run}_bold.nii.gz
-    python ${path_script}/create_FSL_physio_text_file_from_Siemens_file.py -TR 2.5 -number-of-volumes 134 -pulse ${file_pulse} -resp ${file_resp} -json ${filename}.json
+    python ${path_script}/create_FSL_physio_text_file_from_Siemens_file.py -TR 2.5 -number-of-volumes 136 -pulse ${file_pulse} -resp ${file_resp} -json ${filename}.json
     cp ${filename}.physio ${output_path}/ses-spinalcord${session}/func/${subject}_ses-spinalcord${session}_task-tens_run-${run}_physio.physio
   else 
     echo Skipping ${series}
