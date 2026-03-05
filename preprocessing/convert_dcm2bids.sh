@@ -134,7 +134,7 @@ echo ${dir}
 cd ${analysis_path}/nii_${dir}
 echo ${analysis_path}/nii_${dir}
 
-for file in *.json; do  
+for file in $(ls -1v -- *.json); do
   echo ${file}
   filename=${file::-5}
   
