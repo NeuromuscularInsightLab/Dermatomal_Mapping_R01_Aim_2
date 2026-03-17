@@ -212,7 +212,7 @@ for file in $(printf '%s\n' *.json | sort -V); do
   #Brachial Plexus STIR
   ###########################################################################################
   
-  elif [[ ${series} == *"Brachial_Plexus"* ]] && [[ ${series} = *"STIR"* ]]; then
+  elif [[ ${series} == *"BP"* ]] && [[ ${series} = *"stir"* ]]; then
     cp ${filename}.json ${output_path}/ses-spinalcord${session}/anat/${subject}_ses-spinalcord${session}_acq-STIR_T2w.json
     cp ${filename}.nii.gz ${output_path}/ses-spinalcord${session}/anat/${subject}_ses-spinalcord${session}_acq-STIR_T2w.nii.gz
 
