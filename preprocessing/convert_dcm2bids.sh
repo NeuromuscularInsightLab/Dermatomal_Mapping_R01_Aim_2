@@ -159,7 +159,7 @@ for file in $(ls -1v -- *.json); do
     echo ${protocol}
     # Extract the last value from the protocol string (assuming it's after the last colon or space)
     if echo "${protocol}" | grep -q '0'; then
-      acq=cervical
+      acq=cervical_run-wholespine
     elif echo "${protocol}" | grep -q '1'; then
       acq=thoracic
     elif echo "${protocol}" | grep -q '2'; then
