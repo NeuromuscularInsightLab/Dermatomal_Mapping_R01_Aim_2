@@ -296,7 +296,7 @@ if [[ $SES == *"spinalcord"* ]];then
             # Segment the spinal cord
             segment_if_does_not_exist ${file_task_mean} 't2s' 'epi' 'func'
             # Dilate the spinal cord mask
-            ${SCT_EXEC}sct_maths -i ${file_task_mean}_label-SC_seg.nii.gz -dilate 12x12x12 -shape ball -o ${file_task_mean}_mask.nii.gz
+            ${SCT_EXEC}sct_maths -i ${file_task_mean}_label-SC_seg.nii.gz -dilate 15x15x12 -shape ball -o ${file_task_mean}_mask.nii.gz
           fi
           # Qc of mask
           ${SCT_EXEC}sct_qc -i ${file_task_mean}.nii.gz -p sct_deepseg_sc -qc ${PATH_QC} -s ${file_task_mean}_mask.nii.gz -qc-subject ${SUBJECT}
@@ -325,7 +325,7 @@ if [[ $SES == *"spinalcord"* ]];then
             # Segment the spinal cord
               segment_if_does_not_exist mc1_mean 't2s' 'epi' 'func'
               # check dilating
-              ${SCT_EXEC}sct_maths -i mc1_mean_label-SC_seg.nii.gz -dilate 12x12x12 -shape ball -o mc1_mask.nii.gz
+              ${SCT_EXEC}sct_maths -i mc1_mean_label-SC_seg.nii.gz -dilate 15x15x12 -shape ball -o mc1_mask.nii.gz
               # Qc of mask
               ${SCT_EXEC}sct_qc -i  mc1_mean.nii.gz -p sct_deepseg_sc -qc ${PATH_QC} -s mc1_mask.nii.gz -qc-subject ${SUBJECT}
             fi
