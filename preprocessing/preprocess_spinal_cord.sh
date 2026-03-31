@@ -242,7 +242,6 @@ if [[ $SES == *"spinalcord"* ]];then
 
   
     runs=(rest rightthumb leftthumb rightmiddle leftmiddle rightpinky leftpinky)
-
     for run in "${runs[@]}";do
 
       cd ${PATH_DATA_PROCESSED}/${SUBJECT}/func/
@@ -308,9 +307,14 @@ if [[ $SES == *"spinalcord"* ]];then
             # Step 1 of 2D motion correction using mid volume
             # Select mid volume
             mid_volume=$(($number_of_volumes / 2))
-            fslroi ${file_task} ${file_task}_mc1_ref $mid_volume 1
+            if [[ $sub_id == "sub-DMAim2HC011" && $run == "rightthumb" ]]; then
+              mc1_ref=${file_task_mean} # manually set mid volume for this run because of a long initial pause
+            else
+              fslroi ${file_task} ${file_task}_mc1_ref $mid_volume 1
+              mc1_ref=${file_task}_mc1_ref
+            fi
             # Apply motion correction
-            ${PATH_SCRIPTS}/2D_slicewise_motion_correction.sh -i ${file_task}.nii.gz -r ${file_task}_mc1_ref.nii.gz -m ${file_task_mean}_mask.nii.gz -o mc1
+            ${PATH_SCRIPTS}/2D_slicewise_motion_correction.sh -i ${file_task}.nii.gz -r ${mc1_ref}.nii.gz -m ${file_task_mean}_mask.nii.gz -o mc1
             
             # Step 2 of 2D motion correction using mean of mc1 as ref
             # Create mask if doesn't exist:
