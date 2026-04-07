@@ -62,10 +62,7 @@ ng_R01/Aim2/data/BIDS/derivatives/labels -script-args nordic
 
 Without Nordic:
 ~~~
-sct_run_batc
-h -script preprocess_spinal_cord.sh -path-data ~/nilab/Dermatomal_Mapping_R01/Aim2/data/BIDS
-/sourcedata/ -path-out ~/dm_aim2_preprocessing_test -path-segmanual ~/nilab/Dermatomal_Mappi
-ng_R01/Aim2/data/BIDS/derivatives/labels
+sct_run_batch -script preprocess_spinal_cord.sh -path-data ~/nilab/Dermatomal_Mapping_R01/Aim2/data/BIDS/sourcedata/ -path-out ~/dm_aim2_preprocessing_test -path-segmanual ~/nilab/Dermatomal_Mapping_R01/Aim2/data/BIDS/derivatives/labels
 ~~~
 
 
