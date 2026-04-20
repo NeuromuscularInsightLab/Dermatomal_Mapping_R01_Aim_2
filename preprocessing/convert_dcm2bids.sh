@@ -175,7 +175,7 @@ for file in $(ls -1v -- *.json); do
     cp ${filename}.json ${output_path}/ses-spinalcord${session}/anat/${subject}_ses-spinalcord${session}_acq-${acq}_T2w.json
     cp ${filename}.nii.gz ${output_path}/ses-spinalcord${session}/anat/${subject}_ses-spinalcord${session}_acq-${acq}_T2w.nii.gz
 
-  elif [[ ${series} == *"T2w_whole-spine"* ]] && [[ ${series} == *"cs25"* ]]; then
+  elif [[ ${series} == *"T2w_whole-spine"* ]] && [[ ${series} == *"cs25"* ]] && [[ ${series} != *"COMP"* ]]; then
     echo ${series}
         protocol=`grep 'ProtocolName' ${filename}.json`
     echo ${protocol}
