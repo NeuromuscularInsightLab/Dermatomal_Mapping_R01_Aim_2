@@ -196,7 +196,6 @@ for file in $(ls -1v -- *.json); do
   
   elif [[ ${series} == *"T2w_whole-spine"* ]] && [[ ${series} == *"cs25"* ]] && [[ ${series} == *"COMP"* ]]; then
     acq=wholespine
-    echo "here"
     cp ${filename}.json ${output_path}/ses-spinalcord${session}/anat/${subject}_ses-spinalcord${session}_acq-${acq}_rec-accel_T2w.json
     cp ${filename}.nii.gz ${output_path}/ses-spinalcord${session}/anat/${subject}_ses-spinalcord${session}_acq-${acq}_rec-accel_T2w.nii.gz
 
