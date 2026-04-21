@@ -125,8 +125,9 @@ def main():
 
     # Find peak indexes
     idx_peaks = find_peaks(data_cardiac_bd, distance=min_peak_dist)[0]
+    print(f'Number of peaks detected for cardiac data: {len(idx_peaks)}')
     # Check if there are peaks detected
-    if len(idx_peaks) != 0:
+    if len(idx_peaks) > 0:
         peaks_values = data_cardiac_bd[idx_peaks]
 
         # Creat GUI graph to validate peaks
