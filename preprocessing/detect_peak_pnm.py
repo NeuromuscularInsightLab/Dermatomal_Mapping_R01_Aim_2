@@ -125,16 +125,23 @@ def main():
 
     # Find peak indexes
     idx_peaks = find_peaks(data_cardiac_bd, distance=min_peak_dist)[0]
-    peaks_values = data_cardiac_bd[idx_peaks]
+    print(f'Number of peaks detected for cardiac data: {len(idx_peaks)}')
+    # Check if there are peaks detected
+    if len(idx_peaks) > 0:
+        peaks_values = data_cardiac_bd[idx_peaks]
 
-    # Creat GUI graph to validate peaks
-    updated_peak_idx = create_gui(idx_peaks, peaks_values, data_cardiac_bd, 'Cardiac')
+        # Creat GUI graph to validate peaks
+        updated_peak_idx = create_gui(idx_peaks, peaks_values, data_cardiac_bd, 'Cardiac')
 
-    # Save data time points of cardiac peaks
+        # Save data time points of cardiac peaks
 
-    df_physio['peak_card'] = np.zeros(len(data_cardiac))
-    df_physio.loc[updated_peak_idx, ['peak_card']] = 1
-    #updated_time  #time[idx_peaks]
+        df_physio['peak_card'] = np.zeros(len(data_cardiac))
+        df_physio.loc[updated_peak_idx, ['peak_card']] = 1
+        #updated_time  #time[idx_peaks]
+    else:
+        print('No peaks detected for cardiac data. ')
+        df_physio['peak_card'] = np.zeros(len(data_cardiac))
+     # Fetch respiratory data
     if args.o:
         fname_out = args.o
     else:
