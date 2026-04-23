@@ -247,7 +247,7 @@ for file in $(ls -1v -- *.json); do
     fi    
     cp ${filename}.json ${output_path}/ses-spinalcord${session}/func/${subject}_ses-spinalcord${session}_task-tens_run-${run}_bold.json
     cp ${filename}.nii.gz ${output_path}/ses-spinalcord${session}/func/${subject}_ses-spinalcord${session}_task-tens_run-${run}_bold.nii.gz
-    python ${path_script}/create_FSL_physio_text_file_from_Siemens_file.py -TR 2.5 -number-of-volumes 137 -number-of-dummies 1 -pulse ${file_pulse} -resp ${file_resp} -json ${filename}.json
+    python ${path_script}/create_FSL_physio_text_file_from_Siemens_file.py -TR 2.5 -number-of-volumes 137 -number-of-dummy 1 -pulse ${file_pulse} -resp ${file_resp} -json ${filename}.json
     cp ${filename}.physio ${output_path}/ses-spinalcord${session}/func/${subject}_ses-spinalcord${session}_task-tens_run-${run}_physio.physio
   else 
     echo Skipping ${series}
