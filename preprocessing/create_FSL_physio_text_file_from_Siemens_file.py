@@ -9,6 +9,7 @@
 # physiological data used as the end of the output physio file. Start of
 # output file equals end - total time (TR * number_of_volumes). This way the
 # physiological data from any dummy scans are not included in the output file.
+# Since we are adding one extra dummy scan compared to siemens, we need to consider 1 dummy scan
 # Based on https://gist.github.com/rtrhd/6172344
 # Authors: Sandrine Bédard & Kenneth Weber
 
@@ -36,6 +37,8 @@ def get_parser():
                         help="TR in seconds for each volume (i.e., sampling period of volumes)")
     parser.add_argument('-number-of-volumes', required=True, type=int,
                         help="Number of volumes collected")
+    parser.add_argument('-number-of-dummy', required=False, type=int, default=0,
+                        help="Number of dummy scans")
     parser.add_argument('-exclude-resp', action='store_true',
                         help="To put 0 values in respiratory data")
     parser.add_argument('-exclude-pulse', action='store_true',
@@ -78,7 +81,7 @@ def plot_data(cardiac_time_data, cardiac_data, respiration_data_interp, trigger_
     plt.savefig('physio.png', dpi=600, bbox_inches="tight")
 
 
-def create_FSL_physio_text_file_from_Siemens_file(pulse_fname, resp_fname, json_fname, TR, number_of_volumes, exclude_resp=False, exclude_pulse=False):
+def create_FSL_physio_text_file_from_Siemens_file(pulse_fname, resp_fname, json_fname, TR, number_of_volumes, number_of_dummies, exclude_resp=False, exclude_pulse=False):
     """
     Converts Siemens physiological log files to FSL-compatible .physio text file.
     Sampling rate = 50 Hz
@@ -170,6 +173,8 @@ def create_FSL_physio_text_file_from_Siemens_file(pulse_fname, resp_fname, json_
 
         resp_start_time = int(re.search(r'LogStartMDHTime:\s+(\d+)', resp_data).group(1))
         resp_stop_time = int(re.search(r'LogStopMDHTime:\s+(\d+)', resp_data).group(1))
+        resp_stats_match = re.search(r'RESP Min Max Avg StdDiff:\s+(-?\d+)\s+(-?\d+)\s+(-?\d+)\s+(-?\d+)', resp_data)
+        resp_max = int(resp_stats_match.group(2)) if resp_stats_match else np.inf
         clean_fields = []
         include = True
         ninfos = 0
@@ -197,6 +202,7 @@ def create_FSL_physio_text_file_from_Siemens_file(pulse_fname, resp_fname, json_
         for i in spikes:
             if 0 < i < len(resp_trace) - 1:
                 resp_trace[i] = (resp_trace[i - 1] + resp_trace[i + 1]) / 2
+        resp_trace = resp_trace[(resp_trace <= resp_max)]
 
         # Round start and stop times to nearest 20 ms
         resp_start_time = round(resp_start_time / 20) * 20
@@ -208,7 +214,7 @@ def create_FSL_physio_text_file_from_Siemens_file(pulse_fname, resp_fname, json_
 
         figure, ax = plt.subplots()
         ax.plot(resp_trace)
-        plt.show()
+        #plt.show()
         plt.close(figure)
     # ------------------ Read JSON data ------------------
     with open(json_fname, 'r') as f:
@@ -224,9 +230,10 @@ def create_FSL_physio_text_file_from_Siemens_file(pulse_fname, resp_fname, json_
     print(f'Acquisition time (ms): {acquisition_time}')
     # ------------------ Create time vector ------------------
     time_vector = np.arange(acquisition_time - (TR * 1000),
-                            acquisition_time + (TR * number_of_volumes * 1000) + 1,
+                            acquisition_time + (TR * (number_of_volumes - number_of_dummies) * 1000) + 1,
                             20)
-    #print(time_vector)
+    print(len(time_vector))
+    print(acquisition_time - (TR * 1000), acquisition_time + (TR * (number_of_volumes - number_of_dummies) * 1000) + 1)
     # ------------------ Extract pulse and resp data ------------------
     def get_segment(trace, time, start, stop):
         start_idx = np.where(time == start)[0]
@@ -240,20 +247,20 @@ def create_FSL_physio_text_file_from_Siemens_file(pulse_fname, resp_fname, json_
         return trace[start_idx[0]:stop_idx[0] + 1]
     if not exclude_pulse:
         pulse_vector = get_segment(pulse_trace, pulse_time,
-                                acquisition_time - (TR * 1000),
+                                acquisition_time + (TR * (number_of_dummies-1) * 1000),
                                 acquisition_time + (TR * number_of_volumes * 1000))
     else:
         pulse_vector = np.zeros_like(time_vector)
     #print('Pulse vector', pulse_vector)
     if not exclude_resp:
         resp_vector = get_segment(resp_trace, resp_time,
-                                acquisition_time - (TR * 1000),
+                                acquisition_time + (TR * (number_of_dummies-1) * 1000),
                                 acquisition_time + (TR * number_of_volumes * 1000))
     else:
         resp_vector = np.zeros_like(time_vector)
     #print('Resp vector', resp_vector)
     # ------------------ Create trigger vector ------------------
-    trigger_starts = np.arange(acquisition_time,
+    trigger_starts = np.arange(acquisition_time + (TR * number_of_dummies * 1000),
                                acquisition_time + (TR * (number_of_volumes - 1) * 1000) + 1,
                                TR * 1000)
     trigger_vector = np.zeros_like(time_vector)
@@ -267,8 +274,8 @@ def create_FSL_physio_text_file_from_Siemens_file(pulse_fname, resp_fname, json_
             trigger_vector[idx:idx + width_samples] = 1
 
     # ------------------ Convert time to seconds (0 = start of run) ------------------
-    time_vector = np.arange(-TR, TR * number_of_volumes + 0.02, 0.02)
-
+    time_vector = np.arange(-TR, TR * (number_of_volumes - number_of_dummies) + 0.02, 0.02)
+    print('Time vector (s):', min(time_vector), max(time_vector))
     # ------------------ Plot results ------------------
     fig, axes = plt.subplots(3, 1, figsize=(18, 9), sharex=True)
     axes[0].plot(time_vector, resp_vector)
@@ -303,6 +310,7 @@ def main():
     args = parser.parse_args()
     TR = args.TR
     number_of_volumes = args.number_of_volumes
+    number_of_dummies = args.number_of_dummy
     json_fname = args.json
     resp_fname = args.resp
     pulse_fname = args.pulse
@@ -314,6 +322,7 @@ def main():
                                                                                                            json_fname=json_fname,
                                                                                                            TR=TR, 
                                                                                                            number_of_volumes=number_of_volumes,
+                                                                                                           number_of_dummies=number_of_dummies,
                                                                                                            exclude_resp=args.exclude_resp,
                                                                                                            exclude_pulse=args.exclude_pulse)  
 
