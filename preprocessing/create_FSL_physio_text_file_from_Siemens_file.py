@@ -260,9 +260,12 @@ def create_FSL_physio_text_file_from_Siemens_file(pulse_fname, resp_fname, json_
         resp_vector = np.zeros_like(time_vector)
     #print('Resp vector', resp_vector)
     # ------------------ Create trigger vector ------------------
-    trigger_starts = np.arange(acquisition_time + (TR * number_of_dummies * 1000),
-                               acquisition_time + (TR * (number_of_volumes - 1) * 1000) + 1,
+    trigger_starts = np.arange(acquisition_time,
+                               acquisition_time + (TR * (number_of_volumes - 1 - number_of_dummies) * 1000) + 1,
                                TR * 1000)
+    # trigger_starts = np.arange(acquisition_time + (TR * number_of_dummies * 1000),
+    #                            acquisition_time + (TR * (number_of_volumes - 1) * 1000) + 1,
+    #                            TR * 1000)
     trigger_vector = np.zeros_like(time_vector)
     trigger_width = TR * 0.1  # 10% of TR
     width_samples = int((trigger_width * 1000) / 20)
