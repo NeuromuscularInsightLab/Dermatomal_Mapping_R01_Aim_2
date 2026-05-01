@@ -173,8 +173,11 @@ def create_FSL_physio_text_file_from_Siemens_file(pulse_fname, resp_fname, json_
 
         resp_start_time = int(re.search(r'LogStartMDHTime:\s+(\d+)', resp_data).group(1))
         resp_stop_time = int(re.search(r'LogStopMDHTime:\s+(\d+)', resp_data).group(1))
+<<<<<<< HEAD
         resp_stats_match = re.search(r'RESP Min Max Avg StdDiff:\s+(-?\d+)\s+(-?\d+)\s+(-?\d+)\s+(-?\d+)', resp_data)
         resp_max = int(resp_stats_match.group(2)) if resp_stats_match else np.inf
+=======
+>>>>>>> c96a2e905ca12dbff8cadb01b05c05d976487d8a
         clean_fields = []
         include = True
         ninfos = 0
