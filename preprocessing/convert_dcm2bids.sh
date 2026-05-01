@@ -135,7 +135,7 @@ cd ${analysis_path}/nii_${dir}
 echo ${analysis_path}/nii_${dir}
 
 #for file in *.json; do  
-for file in $(printf '%s\n' *.json | sort -V); do
+for file in $(ls -1v -- *.json); do
   echo ${file}
   filename=${file::-5}
   
@@ -144,7 +144,7 @@ for file in $(printf '%s\n' *.json | sort -V); do
   else
     series="No *json file in ${dir}"   
   fi
-
+  perl -0777 -i -pe 's/"SequenceVariant"\s*:\s*"(?:\\.|[^"\\])*"/"SequenceVariant": "SK"/' *.json
   echo $series
       
 
@@ -194,10 +194,10 @@ for file in $(printf '%s\n' *.json | sort -V); do
     cp ${filename}.json ${output_path}/ses-spinalcord${session}/anat/${subject}_ses-spinalcord${session}_acq-${acq}_rec-accel_T2w.json
     cp ${filename}.nii.gz ${output_path}/ses-spinalcord${session}/anat/${subject}_ses-spinalcord${session}_acq-${acq}_rec-accel_T2w.nii.gz
   
-  elif [[ ${series} == *"T2w_whole-spine"* ]] && [[ ${series} == *"cs25"* ]]&& [[ ${series} == *"COMP"* ]]; then
+  elif [[ ${series} == *"T2w_whole-spine"* ]] && [[ ${series} == *"cs25"* ]] && [[ ${series} == *"COMP"* ]]; then
     acq=wholespine
-    cp ${filename}.json ${output_path}/ses-spinalcord${session}/anat/${subject}_ses-spinalcord${session}_acq-${acq}_T2w.json
-    cp ${filename}.nii.gz ${output_path}/ses-spinalcord${session}/anat/${subject}_ses-spinalcord${session}_acq-${acq}_T2w.nii.gz
+    cp ${filename}.json ${output_path}/ses-spinalcord${session}/anat/${subject}_ses-spinalcord${session}_acq-${acq}_rec-accel_T2w.json
+    cp ${filename}.nii.gz ${output_path}/ses-spinalcord${session}/anat/${subject}_ses-spinalcord${session}_acq-${acq}_rec-accel_T2w.nii.gz
 
   elif [[ ${series} == *"T2w_c-spine"* ]]; then
     cp ${filename}.json ${output_path}/ses-spinalcord${session}/anat/${subject}_ses-spinalcord${session}_acq-cervical_T2w.json
@@ -210,7 +210,7 @@ for file in $(printf '%s\n' *.json | sort -V); do
   elif [[ ${series} == *"T2w_clinical_c-spine_ax"* ]]; then
     cp ${filename}.json ${output_path}/ses-spinalcord${session}/anat/${subject}_ses-spinalcord${session}_acq-ax_T2w.json
     cp ${filename}.nii.gz ${output_path}/ses-spinalcord${session}/anat/${subject}_ses-spinalcord${session}_acq-ax_T2w.nii.gz
-  
+
   ###########################################################################################
   ###########################################################################################
   #Brachial Plexus STIR
@@ -226,7 +226,7 @@ for file in $(printf '%s\n' *.json | sort -V); do
   elif [[ ${series} == *"rest"* ]]; then
     cp ${filename}.json ${output_path}/ses-spinalcord${session}/func/${subject}_ses-spinalcord${session}_task-rest_bold.json
     cp ${filename}.nii.gz ${output_path}/ses-spinalcord${session}/func/${subject}_ses-spinalcord${session}_task-rest_bold.nii.gz
-    python ${path_script}/create_FSL_physio_text_file_from_Siemens_file.py -TR 2.5 -number-of-volumes 136 -pulse ${file_pulse} -resp ${file_resp} -json ${filename}.json
+    python ${path_script}/create_FSL_physio_text_file_from_Siemens_file.py -TR 2.5 -number-of-volumes 137 -number-of-dummy 1 -pulse ${file_pulse} -resp ${file_resp} -json ${filename}.json
     cp ${filename}.physio ${output_path}/ses-spinalcord${session}/func/${subject}_ses-spinalcord${session}_task-rest_physio.physio
 
   elif ([[ ${series} == *"leftthumb"* ]] || [[ ${series} == *"rightthumb"* ]] || [[ ${series} == *"leftmiddle"* ]] || [[ ${series} == *"rightmiddle"* ]] || [[ ${series} == *"leftpinky"* ]] || [[ ${series} == *"rightpinky"* ]]); then
@@ -247,7 +247,7 @@ for file in $(printf '%s\n' *.json | sort -V); do
     fi    
     cp ${filename}.json ${output_path}/ses-spinalcord${session}/func/${subject}_ses-spinalcord${session}_task-tens_run-${run}_bold.json
     cp ${filename}.nii.gz ${output_path}/ses-spinalcord${session}/func/${subject}_ses-spinalcord${session}_task-tens_run-${run}_bold.nii.gz
-    python ${path_script}/create_FSL_physio_text_file_from_Siemens_file.py -TR 2.5 -number-of-volumes 136 -pulse ${file_pulse} -resp ${file_resp} -json ${filename}.json
+    python ${path_script}/create_FSL_physio_text_file_from_Siemens_file.py -TR 2.5 -number-of-volumes 137 -number-of-dummy 1 -pulse ${file_pulse} -resp ${file_resp} -json ${filename}.json
     cp ${filename}.physio ${output_path}/ses-spinalcord${session}/func/${subject}_ses-spinalcord${session}_task-tens_run-${run}_physio.physio
   else 
     echo Skipping ${series}
