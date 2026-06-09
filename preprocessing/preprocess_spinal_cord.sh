@@ -210,7 +210,7 @@ if [[ $SES == *"spinalcord"* ]];then
           file_t2_labels_discs="${file_t2w}_label-SC_seg_labeled_discs"
 
           # Extract dics 1 to 10 for registration to template (C1 to T2-T3)
-          ${SCT_EXEC}sct_label_utils -i ${file_t2_labels_discs}.nii.gz -keep 1,2,3,4,5,6,7,8,9,10 -o ${file_t2_labels_discs}_1to10.nii.gz
+          ${SCT_EXEC}sct_label_utils -i ${file_t2_labels_discs}.nii.gz -keep 1,2,3,4,5,6,7,8,9,10,11,12,13,14 -o ${file_t2_labels_discs}_1to10.nii.gz
           file_t2_labels_discs="${file_t2w}_label-SC_seg_labeled_discs_1to10"
           
           # Label spinal nerve rootlets
