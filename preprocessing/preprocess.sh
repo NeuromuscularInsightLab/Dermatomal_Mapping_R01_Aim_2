@@ -4,8 +4,9 @@
 path_script=~/codes/Dermatomal_Mapping_R01_Aim_2/preprocessing
 PATH_DATA=${SCRATCH}/dm-aim2/sourcedata
 PATH_SEGMANUAL=${SCRATCH}/dm-aim2/derivatives/labels
-output_path=${SCRATCH}/dm-aim2/preprocessing_ALL_nordic
+output_path=${SCRATCH}/dm-aim2/preprocessing_ALL_nordic_v2
 subjects=(sub-DMAim2HC001 sub-DMAim2HC002 sub-DMAim2HC003 sub-DMAim2HC004 sub-DMAim2HC013 sub-DMAim2HC009 sub-DMAim2HC012 sub-DMAim2HC020 sub-DMAim2HC011 sub-DMAim2HC005 sub-DMAim2HC016 sub-DMAim2HC021 sub-DMAim2HC018 sub-DMAim2HC023 sub-DMAim2HC014 sub-DMAim2HC025 sub-DMAim2HC017 sub-DMAim2HC019 sub-DMAim2HC027 sub-DMAim2HC026 sub-DMAim2HC006)
+subjects=(sub-DMAim2HC002 sub-DMAim2HC012 sub-DMAim2HC020 sub-DMAim2HC011 )
 ses=ses-spinalcord
 NORDIC="nordic" #nordic
 time_limit=15:00:00
