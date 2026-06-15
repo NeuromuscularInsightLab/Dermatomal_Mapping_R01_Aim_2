@@ -242,7 +242,6 @@ if [[ $SES == *"spinalcord"* ]];then
 
   
     runs=(rest rightthumb leftthumb rightmiddle leftmiddle rightpinky leftpinky)
-    runs=(rest)
     for run in "${runs[@]}";do
 
       cd ${PATH_DATA_PROCESSED}/${SUBJECT}/func/
