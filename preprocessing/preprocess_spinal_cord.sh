@@ -210,7 +210,7 @@ if [[ $SES == *"spinalcord"* ]];then
           file_t2_labels_discs="${file_t2w}_label-SC_seg_labeled_discs"
 
           # Extract dics 1 to 10 for registration to template (C1 to T2-T3)
-          ${SCT_EXEC}sct_label_utils -i ${file_t2_labels_discs}.nii.gz -keep 1,2,3,4,5,6,7,8,9,10 -o ${file_t2_labels_discs}_1to10.nii.gz
+          ${SCT_EXEC}sct_label_utils -i ${file_t2_labels_discs}.nii.gz -keep 1,2,3,4,5,6,7,8,9,10,11,12,13,14 -o ${file_t2_labels_discs}_1to10.nii.gz
           file_t2_labels_discs="${file_t2w}_label-SC_seg_labeled_discs_1to10"
           
           # Label spinal nerve rootlets
@@ -423,14 +423,30 @@ if [[ $SES == *"spinalcord"* ]];then
         fi
     	  popp -i ${file_physio}_peak.txt -o physio -s 100 --tr=${tr} --smoothcard=0.1 --smoothresp=0.1 --resp=2 --cardiac=5 --trigger=3 -v --pulseox_trigger
         # Run PNM using manual peak detections in derivatives
-        pnm_evs -i ${file_task}.nii.gz -c physio_card.txt -r physio_resp.txt -o physio_ --tr=${tr} --oc=4 --or=4 --multc=2 --multr=2 --sliceorder=interleaved_up
-
+        #pnm_evs -i ${file_task}.nii.gz -c physio_card.txt -r physio_resp.txt -o physio_ --tr=${tr} --oc=4 --or=4 --multc=2 --multr=2 --sliceorder=interleaved_up
+        # Run PNM using available physio regressors
+        pnm=1
+        if [[ -s physio_card.txt ]]; then
+          if [[ -s physio_resp.txt ]]; then
+            pnm_evs -i ${file_task}.nii.gz -c physio_card.txt -r physio_resp.txt -o physio_ --tr=${tr} --oc=4 --or=4 --multc=2 --multr=2 --sliceorder=interleaved_up
+          fi
+        else
+          echo "physio_card.txt is empty. Skipping PNM EV generation for this run."
+          rm physio_card.txt physio_resp.txt
+          pnm=0
+        fi
       fi
       mv physio* ./PNM_run-${run}
       ls ${PWD}/PNM_run-${run}/*.nii.gz > ./PNM_run-${run}/${file_task}_physio_evlist.txt # Create ev list
-      cp ${PATH_SCRIPTS}/spinal_cord_pnm.fsf ./
       export PATH_DATA_PROCESSED SUBJECT file_task run tr number_of_volumes
-      envsubst < "spinal_cord_pnm.fsf" > "spinal_cord_pnm_${file_task}.fsf"
+      if [[ $pnm -eq 1 ]]; then
+        cp ${PATH_SCRIPTS}/spinal_cord_pnm.fsf ./
+        envsubst < "spinal_cord_pnm.fsf" > "spinal_cord_pnm_${file_task}.fsf"
+      else
+        # If no physio, run PNM with only motion and confound regressors
+        cp ${PATH_SCRIPTS}/spinal_cord_pnm_no_physio.fsf ./
+        envsubst < "spinal_cord_pnm_no_physio.fsf" > "spinal_cord_pnm_${file_task}.fsf"
+      fi
       # Remove existing feat repo if already exists
       if [[ -d "${file_task_mc2}_pnm.feat" ]]; then
         rm -r "${file_task_mc2}_pnm.feat"
