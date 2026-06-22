@@ -331,7 +331,7 @@ set fmri(ortho1.3) 0
 set fmri(ortho1.4) 0
 
 # EV 2 title
-set fmri(evtitle3) "Tx"
+set fmri(evtitle2) "Tx"
 
 # Basic waveform shape (EV 2)
 # 0 : Square
@@ -340,7 +340,7 @@ set fmri(evtitle3) "Tx"
 # 3 : Custom (3 column format)
 # 4 : Interaction
 # 10 : Empty (all zeros)
-set fmri(shape3) 9
+set fmri(shape2) 9
 
 # Convolution (EV 2)
 # 0 : None
@@ -380,10 +380,10 @@ set fmri(ortho2.3) 0
 # Orthogonalise EV 2 wrt EV 4
 set fmri(ortho2.4) 0
 
-# EV 4 title
-set fmri(evtitle4) "Ty"
+# EV 3 title
+set fmri(evtitle3) "Ty"
 
-# Basic waveform shape (EV 4)
+# Basic waveform shape (EV 3)
 # 0 : Square
 # 1 : Sinusoid
 # 2 : Custom (1 entry per volume)
