@@ -33,10 +33,10 @@ set fmri(sscleanup_yn) 0
 set fmri(outputdir) "${PATH_DATA_PROCESSED}/${SUBJECT}/func/run-${run}/${file_task}_mc2_pnm.feat"
 
 # TR(s)
-set fmri(tr) 2.500000 
+set fmri(tr) ${tr}
 
 # Total volumes
-set fmri(npts) 136
+set fmri(npts) ${number_of_volumes}
 
 # Delete volumes
 set fmri(ndelete) 0
