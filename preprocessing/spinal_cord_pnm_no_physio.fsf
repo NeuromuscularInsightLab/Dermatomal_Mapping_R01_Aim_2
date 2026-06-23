@@ -82,10 +82,10 @@ set fmri(regunwarp_yn) 0
 set fmri(gdc) ""
 
 # EPI dwell time (ms)
-set fmri(dwell) 0.0
+set fmri(dwell) 0.7
 
 # EPI TE (ms)
-set fmri(te) 0.0
+set fmri(te) 35
 
 # % Signal loss threshold
 set fmri(signallossthresh) 10
@@ -106,7 +106,7 @@ set fmri(st) 0
 set fmri(st_file) ""
 
 # BET brain extraction
-set fmri(bet_yn) 1
+set fmri(bet_yn) 0
 
 # Spatial smoothing FWHM (mm)
 set fmri(smooth) 0
