@@ -390,7 +390,7 @@ set fmri(evtitle3) "Ty"
 # 3 : Custom (3 column format)
 # 4 : Interaction
 # 10 : Empty (all zeros)
-set fmri(shape4) 9
+set fmri(shape3) 9
 
 # Convolution (EV 3)
 # 0 : None
