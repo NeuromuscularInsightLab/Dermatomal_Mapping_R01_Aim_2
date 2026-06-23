@@ -106,7 +106,7 @@ set fmri(st) 0
 set fmri(st_file) ""
 
 # BET brain extraction
-set fmri(bet_yn) 1
+set fmri(bet_yn) 0
 
 # Spatial smoothing FWHM (mm)
 set fmri(smooth) 0
@@ -324,7 +324,7 @@ set fmri(ortho1.1) 0
 # Orthogonalise EV 1 wrt EV 2
 set fmri(ortho1.2) 0
 
-# Orthogonalise EV 1 wrt EV 2
+# Orthogonalise EV 1 wrt EV 3
 set fmri(ortho1.3) 0
 
 # Orthogonalise EV 1 wrt EV 4
@@ -357,7 +357,7 @@ set fmri(convolve2) 0
 set fmri(convolve_phase2) 0
 
 # Apply temporal filtering (EV 2)
-set fmri(tempfilt_yn2) 1
+set fmri(tempfilt_yn2) 0
 
 # Add temporal derivative (EV 2)
 set fmri(deriv_yn2) 0
@@ -407,7 +407,7 @@ set fmri(convolve3) 0
 set fmri(convolve_phase3) 0
 
 # Apply temporal filtering (EV 3)
-set fmri(tempfilt_yn3) 1
+set fmri(tempfilt_yn3) 0
 
 # Add temporal derivative (EV 3)
 set fmri(deriv_yn3) 0
@@ -424,10 +424,10 @@ set fmri(ortho3.1) 0
 # Orthogonalise EV 3 wrt EV 2
 set fmri(ortho3.2) 0
 
-# Orthogonalise EV 3 wrt EV 2
+# Orthogonalise EV 3 wrt EV 3
 set fmri(ortho3.3) 0
 
-# Orthogonalise EV 3 wrt EV 3
+# Orthogonalise EV 3 wrt EV 4
 set fmri(ortho3.4) 0
 
 # EV 4 title
@@ -457,7 +457,7 @@ set fmri(convolve4) 0
 set fmri(convolve_phase4) 0
 
 # Apply temporal filtering (EV 4)
-set fmri(tempfilt_yn4) 1
+set fmri(tempfilt_yn4) 0
 
 # Add temporal derivative (EV 4)
 set fmri(deriv_yn4) 0
