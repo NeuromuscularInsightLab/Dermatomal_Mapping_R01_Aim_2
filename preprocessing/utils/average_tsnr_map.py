@@ -68,6 +68,7 @@ def main():
     else:
         include = []
     logger.info(include)
+    runs=['rightthumb', 'leftthumb', 'rightmiddle', 'leftmiddle', 'rightpinky', 'leftpinky']
 
     # Find tSNR maps
     #tsnr_maps = glob.glob(os.path.join(input_folder, '*/*/*/*/*mc2_tsnr.nii.gz'))
@@ -102,12 +103,13 @@ def main():
         file_nib = nib.load(list_tsnr_maps[0])
         file_data = np.array(file_nib.get_fdata())
         sum_data = np.zeros(shape=file_data.shape)
+        # Do an avreage per run and for all runs combined
         for tsnr_map in list_tsnr_maps:
             file_nib = nib.load(tsnr_map)
             sum_data +=np.array(file_nib.get_fdata())
             logger.info(tsnr_map)
         # Compute mean tSNR map for each run (1 to 3)
-        for run_num in range(1, 4):
+        for run_num in runs:
             run_maps = [tsnr_map for tsnr_map in list_tsnr_maps if f'run-{run_num}_' in os.path.basename(tsnr_map)]
             if run_maps:
                 sum_run = np.zeros(shape=file_data.shape)
