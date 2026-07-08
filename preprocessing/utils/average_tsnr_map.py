@@ -77,7 +77,7 @@ def main():
     if include:
         list_tsnr_maps = []
         for sub in include:
-            tsnr_maps = glob.glob(os.path.join(input_folder, sub, 'ses-spinalcord', 'func', 'run-*', '*mc2_tsnr.nii.gz'))
+            tsnr_maps = glob.glob(os.path.join(input_folder, sub, 'ses-spinalcord', 'func', 'run-*', '*task-tens_*mc2_tsnr.nii.gz'))
             logger.info("Found tSNR maps for {}: {}".format(sub, tsnr_maps))
             # Warp tSNR maps to PAM50 template space
             for tsnr_map in tsnr_maps:
