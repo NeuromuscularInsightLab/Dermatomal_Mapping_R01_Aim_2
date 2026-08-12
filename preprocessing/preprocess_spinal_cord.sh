@@ -304,6 +304,9 @@ if [[ $SES == *"spinalcord"* ]];then
             # Step 1 of 2D motion correction using mid volume
             # Select mid volume
             mid_volume=$(($number_of_volumes / 2))
+            if [[ $sub_id == "sub-DMAim2HC040" && $run == "leftthumb" ]]; then
+              mid_volume=36 # manually set mid volume for this run because of a long initial pause
+            fi
             if [[ $sub_id == "sub-DMAim2HC011" && $run == "rightthumb" ]]; then
               mc1_ref=${file_task_mean} # manually set mid volume for this run because of a long initial pause
             else
