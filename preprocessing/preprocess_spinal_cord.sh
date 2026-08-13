@@ -243,6 +243,7 @@ if [[ $SES == *"spinalcord"* ]];then
 
   
     runs=(rest rightthumb leftthumb rightmiddle leftmiddle rightpinky leftpinky)
+    runs=(leftthumb)
     
     for run in "${runs[@]}";do
 
@@ -297,6 +298,11 @@ if [[ $SES == *"spinalcord"* ]];then
           # Qc of mask
           ${SCT_EXEC}sct_qc -i ${file_task_mean}.nii.gz -p sct_deepseg_sc -qc ${PATH_QC} -s ${file_task_mean}_mask.nii.gz -qc-subject ${SUBJECT}
           ${SCT_EXEC}sct_fmri_compute_tsnr -i ${file_task}.nii.gz -o ${file_task}_tsnr.nii.gz
+          if [[ $sub_id == "sub-DMAim2HC040" && $run == "leftthumb" ]]; then # nothing worked for this subject
+              fslroi ${file_task} ${file_task}_mc1_ref 38 1
+              sct_fmri_moco -i ${file_task}.nii.gz -x spline -m ${file_task_mean}_mask.nii.gz -ref ${file_task}_mc1_ref.nii.gz -qc ${PATH_QC} -qc-subject ${SUBJECT} -qc-seg ${file_task_mean}_label-SC_seg.nii.gz
+              mv ${file_task}_moco.nii.gz ${file_task}_mc2.nii.gz
+          fi
           if [[ ! -f ${file_task}_mc2.nii.gz ]]; then
             # --------------------
             # 2D Motion correction
@@ -304,9 +310,6 @@ if [[ $SES == *"spinalcord"* ]];then
             # Step 1 of 2D motion correction using mid volume
             # Select mid volume
             mid_volume=$(($number_of_volumes / 2))
-            if [[ $sub_id == "sub-DMAim2HC040" && $run == "leftthumb" ]]; then
-              mid_volume=36 # manually set mid volume for this run because of a long initial pause
-            fi
             if [[ $sub_id == "sub-DMAim2HC011" && $run == "rightthumb" ]]; then
               mc1_ref=${file_task_mean} # manually set mid volume for this run because of a long initial pause
             else
