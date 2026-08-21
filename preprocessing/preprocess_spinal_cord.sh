@@ -300,6 +300,23 @@ if [[ $SES == *"spinalcord"* ]];then
           # Qc of mask
           ${SCT_EXEC}sct_qc -i ${file_task_mean}.nii.gz -p sct_deepseg_sc -qc ${PATH_QC} -s ${file_task_mean}_mask.nii.gz -qc-subject ${SUBJECT}
           ${SCT_EXEC}sct_fmri_compute_tsnr -i ${file_task}.nii.gz -o ${file_task}_tsnr.nii.gz
+          if [[ $sub_id == "sub-DMAim2HC040" && $run == "leftthumb" ]]; then # nothing worked for this subject
+              fslroi ${file_task} ${file_task}_mc1_ref 38 1
+              sct_fmri_moco -i ${file_task}.nii.gz -x spline -m ${file_task_mean}_mask.nii.gz -ref ${file_task}_mc1_ref.nii.gz
+              mv ${file_task}_moco.nii.gz ${file_task}_mc2.nii.gz
+              fslmaths ${file_task}_mc2 -Tmean ${file_task}_mc2_mean
+              fslmaths ${file_task}_mc2 -Tstd ${file_task}_mc2_std
+              fslmaths ${file_task}_mc2_mean -div ${file_task}_mc2_std ${file_task}_mc2_tsnr
+
+              # Create empty Rz file, as no rotation is used.
+              fslcreatehd 1 1 31 136 1 1 1 2.5 0 0 0 16 Rz.nii.gz
+              mv moco_params_x.nii.gz Tx.nii.gz
+              mv moco_params_y.nii.gz Ty.nii.gz
+              # Move motion regressors to .PNM
+              mv Rz.nii.gz ./PNM_run-${run}
+              mv Tx.nii.gz ./PNM_run-${run}
+              mv Ty.nii.gz ./PNM_run-${run}
+          fi
           if [[ ! -f ${file_task}_mc2.nii.gz ]]; then
             # --------------------
             # 2D Motion correction
