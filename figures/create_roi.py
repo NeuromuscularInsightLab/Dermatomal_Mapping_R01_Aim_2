@@ -3,7 +3,7 @@
 # For usage, type: python create_roi.py -h
 
 # To create ROIS for PAM50 space for ROI analysis, use the following command (after changing the paths):
-#python create_roi.py -label ${SCT_DIR}/data/PAM50/ -mask ~/Projects/Dermatomal_Mapping_R01/data/BIDS/derivatives/masks/mask_cord_N40.nii.gz -levels 6 7 8 -thr 0.5 -o-folder ~/Projects/Dermatomal_Mapping_R01/data/BIDS/derivatives/masks/rois_n40/ 
+#python create_roi.py -label ${SCT_DIR}/data/PAM50/ -mask /home/sbedard/nilab/Dermatomal_Mapping_R01/Aim2/data/BIDS/derivatives/masks/mask_n25.nii.gz -levels 5 6 7 8 9 -thr 0.5 -o-folder /home/sbedard/nilab/Dermatomal_Mapping_R01/Aim2/data/BIDS/derivatives/masks/rois_n25/
 # Author: Sandrine Bédard
 
 import os
