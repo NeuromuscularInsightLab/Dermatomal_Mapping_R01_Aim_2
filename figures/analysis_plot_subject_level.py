@@ -31,6 +31,7 @@ def main():
 
     #Create subject level plots for each finger 
     dataset = dataset[(dataset.run == 'rightthumb') | (dataset.run == 'leftthumb') | (dataset.run == 'rightmiddle') | (dataset.run == 'leftmiddle') | (dataset.run == 'rightpinky') | (dataset.run == 'leftpinky')]
+    print(dataset)
     measures = ['zscore', 'voxels', 'lr']
     regions = ['sc']
     regions_rois = [
@@ -66,6 +67,7 @@ def main():
                 print(subject)
                 data = dataset[(dataset['subject'] == subject)]
                 data = data[measure + '_' + region].values
+                print(data, xlabel)
                 plt.plot(xlabel, data, width, label=xlabel, color=color, marker=None)
 
             cope1_mean = dataset[(dataset['run'] == 'rightthumb')][measure + '_' + region].mean()
