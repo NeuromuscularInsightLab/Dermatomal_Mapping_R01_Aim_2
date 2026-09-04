@@ -302,7 +302,7 @@ if [[ $SES == *"spinalcord"* ]];then
           ${SCT_EXEC}sct_fmri_compute_tsnr -i ${file_task}.nii.gz -o ${file_task}_tsnr.nii.gz
           if [[ $sub_id == "sub-DMAim2HC040" && $run == "leftthumb" ]]; then # nothing worked for this subject
               fslroi ${file_task} ${file_task}_mc1_ref 38 1
-              sct_fmri_moco -i ${file_task}.nii.gz -x spline -m ${file_task_mean}_mask.nii.gz -ref ${file_task}_mc1_ref.nii.gz
+              ${SCT_EXEC}sct_fmri_moco -i ${file_task}.nii.gz -x spline -m ${file_task_mean}_mask.nii.gz -ref ${file_task}_mc1_ref.nii.gz
               mv ${file_task}_moco.nii.gz ${file_task}_mc2.nii.gz
               fslmaths ${file_task}_mc2 -Tmean ${file_task}_mc2_mean
               fslmaths ${file_task}_mc2 -Tstd ${file_task}_mc2_std

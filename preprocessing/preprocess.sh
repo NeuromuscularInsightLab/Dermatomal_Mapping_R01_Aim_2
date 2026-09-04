@@ -6,7 +6,8 @@ PATH_DATA=${SCRATCH}/dm-aim2/sourcedata
 PATH_SEGMANUAL=${SCRATCH}/dm-aim2/derivatives/labels
 output_path=${SCRATCH}/dm-aim2/preprocessing_ALL_nordic
 subjects=(sub-DMAim2HC001 sub-DMAim2HC002 sub-DMAim2HC003 sub-DMAim2HC004 sub-DMAim2HC013 sub-DMAim2HC009 sub-DMAim2HC012 sub-DMAim2HC020 sub-DMAim2HC011 sub-DMAim2HC005 sub-DMAim2HC016 sub-DMAim2HC021 sub-DMAim2HC018 sub-DMAim2HC023 sub-DMAim2HC014 sub-DMAim2HC025 sub-DMAim2HC017 sub-DMAim2HC019 sub-DMAim2HC027 sub-DMAim2HC026 sub-DMAim2HC006)
-subjects=(sub-DMAim2HC029)
+subjects=(sub-DMAim2HC041 sub-DMAim2HC044 sub-DMAim2HC038 sub-DMAim2HC029 sub-DMAim2HC030 sub-DMAim2HC034 sub-DMAim2HC057 sub-DMAim2HC039 sub-DMAim2HC054 sub-DMAim2HC042 sub-DMAim2HC046 sub-DMAim2HC046 sub-DMAim2HC032 sub-DMAim2HC043 sub-DMAim2HC056 sub-DMAim2HC040)
+
 ses=ses-spinalcord
 NORDIC="nordic" #nordic
 time_limit=17:00:00
