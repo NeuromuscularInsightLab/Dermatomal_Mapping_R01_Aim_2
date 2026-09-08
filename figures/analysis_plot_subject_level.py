@@ -95,6 +95,21 @@ def main():
                 capsize=5,
                 markeredgewidth=3
             )
+            
+            means = [cope1_mean, cope2_mean, cope3_mean, cope4_mean, cope5_mean, cope6_mean]
+
+            ses = [cope1_se, cope2_se, cope3_se, cope4_se, cope5_se, cope6_se]
+
+            for x, mean, se in zip(xlabel, means, ses):
+                plt.text(
+                    x,
+                    mean + se,
+                    f'{mean:.2f}±{se:.2f}',
+                    ha='center',
+                    va='bottom',
+                    fontsize=8,
+                    rotation=45
+                )
             # Fit linear regression (1st degree polynomial) to all data points (not just the means)
             x_all = dataset['run'].map({'rightthumb': 1, 'leftthumb': 4, 'rightmiddle': 2, 'leftmiddle': 5, 'rightpinky': 3, 'leftpinky': 6}).values
             y_all = dataset[measure + '_' + region].values
@@ -204,7 +219,8 @@ def main():
 
                 means.append(vals.mean())
                 sds.append(vals.std())
-
+            print(f"Means for {measure} in {region}: {means}")
+            print(f"Standard deviations for {measure} in {region}: {sds}")
             ax.errorbar(
                 run_order,
                 means,
@@ -256,7 +272,12 @@ def main():
             & (dataset_roi.region == 'right_sc_gm_mask')
         ][measure].mean()
 
-        row_values.append((left_val + right_val) / 2)
+        if run.startswith('right'):
+            color_val = right_val
+        else:
+            color_val = left_val
+
+        row_values.append(color_val)
 
         row_annots.append(
             f"{left_val:.1f} | {right_val:.1f}"
@@ -278,7 +299,13 @@ def main():
                 & (dataset_roi.region == right_roi)
             ][measure].mean()
 
-            row_values.append((left_val + right_val) / 2)
+            if run.startswith('right'):
+                color_val = right_val
+            else:
+                color_val = left_val
+
+            row_values.append(color_val)
+
 
             row_annots.append(
                 f"{left_val:.1f} | {right_val:.1f}"
@@ -299,7 +326,7 @@ def main():
         heat_df,
         annot=np.array(annotations),
         fmt="",
-        cmap="hot",
+        cmap="RdBu_r",
         linewidths=0.5,
         cbar_kws={'label': measure}
     )
