@@ -5,15 +5,16 @@ import argparse
 from scipy.stats import ttest_rel
 from scipy.stats import linregress
 from statsmodels.sandbox.stats.multicomp import multipletests
+import seaborn as sns
 
 import matplotlib.pyplot as plt
 # Example command:
-#python analysis_plot_subject_level.py -metrics ~/Projects/Dermatomal_Mapping_R01/manuscripts/results_n40_spinalcord_Sandrine/subject_metrics.txt -path-out ~/Projects/Dermatomal_Mapping_R01/manuscripts/plots_run-average -metrics-roi ~/Projects/Dermatomal_Mapping_R01/manuscripts/results_n40_spinalcord_Sandrine/subject_metrics_rois.txt
+#python analysis_plot_subject_level.py -metrics ~/nilab/Dermatomal_Mapping_R01/Aim2/data/BIDS/derivatives/preprocessing_ALL/results/n36/subject_metrics_cope.txt -path-out ~/nilab/Dermatomal_Mapping_R01/Aim2/data/BIDS/derivatives/preprocessing_ALL/results/n36/cope -metrics-roi ~/nilab/Dermatomal_Mapping_R01/Aim2/data/BIDS/derivatives/preprocessing_ALL/results/n36/subject_metrics_rois_cope.txt
 
 def get_parser():
     parser = argparse.ArgumentParser(description='Create subject level plots for analysis.')
     parser.add_argument('-metrics', type=str, required=True, help='Path to the metrics file')
-    #parser.add_argument('-metrics-roi', type=str, required=True, help='Path to the metrics file')
+    parser.add_argument('-metrics-roi', type=str, required=True, help='Path to the metrics file')
     parser.add_argument('-path-out', type=str, required=True, help='Path to the output directory')
     return parser
 
@@ -23,15 +24,14 @@ def main():
     path_out = args.path_out
     if not os.path.exists(path_out):
         os.makedirs(path_out)
-    #metrics_roi_path = args.metrics_roi
+    metrics_roi_path = args.metrics_roi
     # Load the metrics dataset
     dataset = pd.read_csv(metrics_path, delimiter=" ")
-    #dataset_roi = pd.read_csv(metrics_roi_path, delimiter=" ")
+    dataset_roi = pd.read_csv(metrics_roi_path, delimiter=" ")
     runs= ['rightthumb', 'rightmiddle', 'rightpinky', 'leftthumb', 'leftmiddle', 'leftpinky']
 
     #Create subject level plots for each finger 
     dataset = dataset[(dataset.run == 'rightthumb') | (dataset.run == 'leftthumb') | (dataset.run == 'rightmiddle') | (dataset.run == 'leftmiddle') | (dataset.run == 'rightpinky') | (dataset.run == 'leftpinky')]
-    print(dataset)
     measures = ['zscore', 'voxels', 'lr']
     regions = ['sc']
     regions_rois = [
@@ -156,123 +156,161 @@ def main():
                     with open(os.path.join(path_out, outname), "w") as text_file:
                         print(result, file=text_file)
 
-    # Create subject level plots for each ROI region for 4 amps
-    # for measure in ['zscore_sc', 'voxels_sc']:
-    #     for region in regions_rois:
-    #         fig, ax = plt.subplots(figsize=(4,3))
-    #         width = 0.50
-    #         color = (255/255, 208/255, 0/255)  # yellow
-    #         xlabel = ['Amp1', 'Amp2', 'Amp3', 'Amp4']
+    run_order = [
+        'rightthumb',
+        'leftthumb',
+        'rightmiddle',
+        'leftmiddle',
+        'rightpinky',
+        'leftpinky'
+    ]
 
-    #         # Set y-label and limits based on measure
-    #         if measure == 'voxels_sc':
-    #             ylabel = 'Voxels'
-    #             if region in ['left_sc_gm_mask', 'right_sc_gm_mask', "left_sc_mask", 'right_sc_mask']:
-    #                 ylim = [0, 1500]
-    #                 ytickmarks = [0, 200, 400, 600, 800, 1000, 1200, 1400]
-    #             else:
-    #                 ylim = [0, 800]
-    #                 ytickmarks = [0, 100, 200, 300, 400, 500, 600, 700, 800]
+    for measure in ['zscore_sc', 'voxels_sc']:
 
-    #         elif measure == 'zscore_sc':
-    #             ylabel = 'Z Score'
-    #             ylim = [1, 5]
-    #             ytickmarks = [1, 2, 3, 4, 5]
-    #         print(dataset_roi.head())
-    #         for subject in dataset_roi.subject.unique():
-    #             data = dataset_roi[
-    #                 (dataset_roi['subject'] == subject) &
-    #                 (dataset_roi['cope'].isin(['cope1', 'cope2', 'cope3', 'cope4'])) &
-    #                 (dataset_roi['region'] == region)
-    #             ]
-    #             data = data.sort_values('cope')
-    #             print(data)
-    #             ydata = data[measure].values
-    #             print(ydata)
-    #             plt.plot(xlabel, ydata, width, color=color, marker=None)
+        for region in regions_rois:
 
-    #         # Means and SDs for each amp
-    #         means = []
-    #         sds = []
-    #         for cope in ['cope1', 'cope2', 'cope3', 'cope4']:
-    #             vals = dataset_roi[(dataset_roi['cope'] == cope) & (dataset_roi['region'] == region)][measure]
-    #             means.append(vals.mean())
-    #             sds.append(vals.std())
-    #         plt.errorbar(xlabel, means, yerr=sds, color=(0,0,0), marker=None, linewidth=3, elinewidth=3, capsize=5, markeredgewidth=3)
+            fig, ax = plt.subplots(figsize=(6,4))
 
-    #         # Linear regression
-            
-    #         x_all = dataset_roi[dataset_roi['region'] == region]['cope'].map({'cope1': 1, 'cope2': 2, 'cope3': 3, 'cope4': 4}).values
-    #         y_all = dataset_roi[dataset_roi['region'] == region][measure].values
-    #         slope, intercept, r_value, p_value, std_err = linregress(x_all, y_all)
-    #         fit_line = slope * np.arange(1, 5) + intercept
-    #         if p_value < 0.05:
-    #             bold=True
-    #         else:
-    #             bold=False
+            for subject in dataset_roi.subject.unique():
 
-    #         if p_value < 0.001:
-    #              p_value_text =  'p<0.001'
-    #         else:
-    #             p_value_text = f'p={p_value:.3f}'
-    #         ax.text(
-    #             0.05, 0.08,
-    #             f'Linear fit: {p_value_text}',
-    #             transform=ax.transAxes,
-    #             fontsize=10,
-    #             verticalalignment='top',
-    #             color='black',
-    #             fontweight='bold' if bold else 'normal'
-    #         )
-    #         if ylim is not None:
-    #             ax.set_ylim(ylim)
-    #         if ytickmarks is not None:
-    #             ax.set_yticks(ytickmarks)
-    #             ax.set_ylabel(ylabel, fontsize=16, color=(0,0,0))
-    #             ax.tick_params(labelsize=12, width=1.5, colors=(0,0,0))
-    #         for axis in ['top','bottom','left','right']:
-    #             ax.spines[axis].set_linewidth(1.5)
-    #             ax.spines[axis].set_color((0,0,0))
-    #         for axis in ['top','right']:
-    #             ax.spines[axis].set_linewidth(0)
-    #         plt.ticklabel_format(axis='y', style='sci', scilimits=(-3,3))
-    #         ax.tick_params(bottom=False)
-    #         plt.subplots_adjust(wspace=0.5)
-    #         plt.show()
-    #         fig.savefig(os.path.join(path_out, f"{measure}_{region}_subject.png"), dpi=600, bbox_inches='tight', pad_inches=0, transparent=True)
-    #         plt.close()
+                data = dataset_roi[
+                    (dataset_roi.subject == subject) &
+                    (dataset_roi.region == region)
+                ]
 
-    #         # Paired t-tests between all pairs of copes for this ROI
-    #         cope_labels = ['cope1', 'cope2', 'cope3', 'cope4']
-    #         n_copes = len(cope_labels)
-    #         pvals = []
-    #         pairs = []
+                data = data.set_index('run').loc[run_order].reset_index()
 
-    #         for i in range(n_copes):
-    #             for j in range(i + 1, n_copes):
-    #                 cope_i = cope_labels[i]
-    #                 cope_j = cope_labels[j]
-    #                 merged = pd.merge(
-    #                     dataset_roi[(dataset_roi['cope'] == cope_i) & (dataset_roi['region'] == region)][['subject', measure]],
-    #                     dataset_roi[(dataset_roi['cope'] == cope_j) & (dataset_roi['region'] == region)][['subject', measure]],
-    #                     on='subject',
-    #                     suffixes=('_' + cope_i, '_' + cope_j)
-    #                 )
-    #                 if not merged.empty:
-    #                     stat, pval = ttest_rel(merged[measure + '_' + cope_i], merged[measure + '_' + cope_j])
-    #                     result = f"Paired t-test {cope_i} vs {cope_j}: t={stat:.4f}, p={pval:.4g}, n={len(merged)}"
-    #                 else:
-    #                     result = f"No paired data for {cope_i} vs {cope_j}"
-    #                 pvals.append(pval)
-    #                 pairs.append((cope_i, cope_j))
-    #                 outname = f"{measure}_{region}_subject_{cope_i}_{cope_j}.txt"
-    #                 with open(os.path.join(path_out, outname), "w") as text_file:
-    #                     print(result, file=text_file)
-    #         outname = f'paired_test_Bonferroni_{measure}_{region}.txt'
-    #         p_adjusted = multipletests(pvals, method='bonferroni', alpha=0.05)
-    #         pvals_corr = f"Adjusted p-values for multiple comparisons (Bonferroni): {p_adjusted} for pairs {pairs}"
-    #         with open(os.path.join(path_out, outname), "w") as text_file:
-    #                     print(pvals_corr, file=text_file)
+                ydata = data[measure].values
+
+                ax.plot(
+                    run_order,
+                    ydata,
+                    color='gold',
+                    alpha=0.3
+                )
+            ylim = [2,6]
+            ylim = [-150, 200]
+            ax.set_ylim(ylim)
+
+            means = []
+            sds = []
+
+            for run in run_order:
+
+                vals = dataset_roi[
+                    (dataset_roi.run == run) &
+                    (dataset_roi.region == region)
+                ][measure]
+
+                means.append(vals.mean())
+                sds.append(vals.std())
+
+            ax.errorbar(
+                run_order,
+                means,
+                yerr=sds,
+                color='black',
+                linewidth=3,
+                capsize=5
+            )
+
+            plt.xticks(rotation=45)
+            plt.ylabel(measure)
+            plt.xlabel('Run')
+            plt.title(f'{region}')
+            plt.tight_layout()
+            plt.savefig(os.path.join(path_out, f'{measure}_{region}_subject.png'))
+            plt.close()
+
+
+
+    measure = 'zscore_sc'
+
+    runs = [
+        'rightthumb',
+        'leftthumb',
+        'rightmiddle',
+        'leftmiddle',
+        'rightpinky',
+        'leftpinky'
+    ]
+
+    segments = ['ALL', 'C6', 'C7', 'C8']
+
+    heat_values = []
+    annotations = []
+
+    for run in runs:
+
+        row_values = []
+        row_annots = []
+
+        # Whole-cord GM
+        left_val = dataset_roi[
+            (dataset_roi.run == run)
+            & (dataset_roi.region == 'left_sc_gm_mask')
+        ][measure].mean()
+
+        right_val = dataset_roi[
+            (dataset_roi.run == run)
+            & (dataset_roi.region == 'right_sc_gm_mask')
+        ][measure].mean()
+
+        row_values.append((left_val + right_val) / 2)
+
+        row_annots.append(
+            f"{left_val:.1f} | {right_val:.1f}"
+        )
+
+        # Segmental ROIs
+        for seg in ['C6', 'C7', 'C8']:
+
+            left_roi = f'{seg}_left_sc_gm_mask'
+            right_roi = f'{seg}_right_sc_gm_mask'
+
+            left_val = dataset_roi[
+                (dataset_roi.run == run)
+                & (dataset_roi.region == left_roi)
+            ][measure].mean()
+
+            right_val = dataset_roi[
+                (dataset_roi.run == run)
+                & (dataset_roi.region == right_roi)
+            ][measure].mean()
+
+            row_values.append((left_val + right_val) / 2)
+
+            row_annots.append(
+                f"{left_val:.1f} | {right_val:.1f}"
+            )
+
+        heat_values.append(row_values)
+        annotations.append(row_annots)
+
+    heat_df = pd.DataFrame(
+        heat_values,
+        index=runs,
+        columns=segments
+    )
+
+    plt.figure(figsize=(6, 6))
+
+    sns.heatmap(
+        heat_df,
+        annot=np.array(annotations),
+        fmt="",
+        cmap="hot",
+        linewidths=0.5,
+        cbar_kws={'label': measure}
+    )
+
+    plt.xlabel('Region')
+    plt.ylabel('Run')
+    plt.title('Segmental activation\n(L GM | R GM)')
+
+    plt.tight_layout()
+    plt.savefig(os.path.join(path_out, f'{measure}_segmental_heatmap_subject.png'))
+    plt.close()
 
 if __name__ == "__main__":
     main()
