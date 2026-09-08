@@ -201,9 +201,8 @@ def main():
                     run_order,
                     ydata,
                     color='gold',
-                    alpha=0.3
                 )
-            ylim = [2,6]
+            #ylim = [2,6]
             ylim = [-150, 200]
             ax.set_ylim(ylim)
 
@@ -235,7 +234,7 @@ def main():
             plt.xlabel('Run')
             plt.title(f'{region}')
             plt.tight_layout()
-            plt.savefig(os.path.join(path_out, f'{measure}_{region}_subject.png'))
+            plt.savefig(os.path.join(path_out, f'{measure}_{region}_subject.png'), dpi=600, bbox_inches='tight', pad_inches = 0, transparent = True)
             plt.close()
 
 
@@ -336,7 +335,7 @@ def main():
     plt.title('Segmental activation\n(L GM | R GM)')
 
     plt.tight_layout()
-    plt.savefig(os.path.join(path_out, f'{measure}_segmental_heatmap_subject.png'))
+    plt.savefig(os.path.join(path_out, f'{measure}_segmental_heatmap_subject.png'), dpi=600, bbox_inches='tight', pad_inches = 0, transparent = True)
     plt.close()
 
 if __name__ == "__main__":
