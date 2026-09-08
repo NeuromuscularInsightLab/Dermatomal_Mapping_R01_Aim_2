@@ -518,7 +518,7 @@ if [[ $SES == *"spinalcord"* ]];then
       rm temp_mask.nii.gz
       # Smoothing 2x2x5 mm
       #sigma= 2mm/2.354 = | sigma = 5m/2.354 for 2mm and 5 mm of full width at half maximum (FWHM)
-      fslmaths ${file_task_mc2}_pnm_stc2template.nii.gz -s 0.85,0.84,2.124 ${file_task_mc2}_pnm_stc2template_smooth225.nii.gz
+      fslmaths ${file_task_mc2}_pnm_stc2template.nii.gz -s 0.85,0.84,2.55 ${file_task_mc2}_pnm_stc2template_smooth225.nii.gz
       
       if [[ $run == "rest" ]]; then
         continue
