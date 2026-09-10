@@ -1,0 +1,6 @@
+- sub-DMAim2HC057 # blurry
+- sub-DMAim2HC043 # rightthumb and leftpinky no resp, low TSNR
+- sub-DMAim2HC042 #low TSNR
+- sub-DMAim2HC014 #no physio puls
+- sub-DMAim2HC017 #mild compression, some artifacts -- maybe exclude
+- sub-DMAim2HC033 # porr data quality --> not analysed
