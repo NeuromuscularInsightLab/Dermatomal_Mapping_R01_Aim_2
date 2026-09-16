@@ -67,7 +67,8 @@ def main():
                 print(subject)
                 data = dataset[(dataset['subject'] == subject)]
                 data = data[measure + '_' + region].values
-                print(data, xlabel)
+                if len(data) != 6:    
+                    print(data, xlabel)
                 plt.plot(xlabel, data, width, label=xlabel, color=color, marker=None)
 
             cope1_mean = dataset[(dataset['run'] == 'rightthumb')][measure + '_' + region].mean()
@@ -203,8 +204,8 @@ def main():
                     color='gold',
                 )
             #ylim = [2,6]
-            ylim = [-150, 200]
-            ax.set_ylim(ylim)
+            #ylim = [-150, 200]
+            #ax.set_ylim(ylim)
 
             means = []
             sds = []

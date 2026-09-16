@@ -13,10 +13,10 @@ rois=(left_sc_gm_mask right_sc_gm_mask left_sc_mask right_sc_mask C6_left_sc_gm_
 #rois=(left_sc_mask right_sc_mask left_vh_mask right_vh_mask left_vq_mask right_vq_mask)
 
 mkdir -p ${data_out}
-#rm -f subject_metrics_rois.txt
-#echo task cope subject roi zscore >> subject_metrics_rois.txt
 rm -f subject_metrics_rois_cope.txt
+#rm -f subject_metrics_rois.txt
 echo task run subject region zscore_sc voxels_sc >> subject_metrics_rois_cope.txt
+#echo task run subject region zscore_sc voxels_sc >> subject_metrics_rois.txt
 
 for run in ${runs[@]}; do
     for subject in ${subjects[@]}; do
@@ -33,9 +33,11 @@ for run in ${runs[@]}; do
 
             echo ${task} ${run} ${subject} ${roi} ${zscore} ${voxels}
             echo ${task} ${run} ${subject} ${roi} ${zscore} ${voxels} >> subject_metrics_rois_cope.txt
+            #echo ${task} ${run} ${subject} ${roi} ${zscore} ${voxels} >> subject_metrics_rois.txt
 
         done
     done
 done
 
 mv subject_metrics_rois_cope.txt ${data_out}/subject_metrics_rois_cope.txt
+#mv subject_metrics_rois.txt ${data_out}/subject_metrics_rois.txt
