@@ -100,33 +100,33 @@ data_path=`pwd`
 
 # Copy data to home directory for analysis
 temp_folder=${subject}_temp`date +%Y%m%d%H%M%S`
-temp_folder=sub-DMAim2HC015_temp20260910133228
+#temp_folder=sub-DMAim2HC015_temp20260910133228
 analysis_path=${HOME}/${temp_folder} #/${folder}
 echo ${analysis_path}
 mkdir -p ${analysis_path}
 dir=imaging
-# rsync -avz --exclude="*.dat" "${data_path}" "${analysis_path}/"
+rsync -avz --exclude="*.dat" "${data_path}" "${analysis_path}/"
 
-# #Convert anat files
-# cd ${analysis_path}
-# exec > "${analysis_path}/dcm2niix.log" 2>&1
-# echo ${analysis_path}
+#Convert anat files
+cd ${analysis_path}
+exec > "${analysis_path}/dcm2niix.log" 2>&1
+echo ${analysis_path}
 
-# if [ -d ${analysis_path} ]; then
-#   cd ${analysis_path}
-#   echo Converting ${analysis_path} to NIFTI
-#   dir=imaging
-#   #cd ./${dir}
-#   rm -rf ./nii_${dir}
-#   mkdir -p ./nii_${dir}
-#   echo Converting ${dir} to NIFTI
-#   dcm2niix -b y  -f %s -z y -x n -v y -o ./nii_${dir} ./*/${dir}
+if [ -d ${analysis_path} ]; then
+  cd ${analysis_path}
+  echo Converting ${analysis_path} to NIFTI
+  dir=imaging
+  #cd ./${dir}
+  rm -rf ./nii_${dir}
+  mkdir -p ./nii_${dir}
+  echo Converting ${dir} to NIFTI
+  dcm2niix -b y  -f %s -z y -x n -v y -o ./nii_${dir} ./*/${dir}
 
-# else
-#   echo Skipping ${analysis_path}/. Folder does not exist.
-# fi
+else
+  echo Skipping ${analysis_path}/. Folder does not exist.
+fi
 
-#cd ${analysis_path}
+cd ${analysis_path}
 # Find physiological log files (assuming they have "physio_log" in their name and end with .puls and .resp)
 file_pulse=$(find "${analysis_path}" -type f -name "*physio_log*.puls" | head -n 1)
 file_resp=$(find "${analysis_path}" -type f -name "*physio_log*.resp" | head -n 1)
