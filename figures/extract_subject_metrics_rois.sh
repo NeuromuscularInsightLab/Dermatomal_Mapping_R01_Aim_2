@@ -4,7 +4,7 @@
 
 #Initialization of parameters
 data_path=/home/sbedard/nilab/Dermatomal_Mapping_R01/Aim2/data/BIDS/derivatives/
-data_out=${data_path}/preprocessing_ALL/results/n40
+data_out=${data_path}/preprocessing_ALL_no-WM//results/n40
 
 task=tens
 runs=(rightthumb leftthumb rightmiddle leftmiddle rightpinky leftpinky)
@@ -28,8 +28,8 @@ for run in ${runs[@]}; do
 
             #zscore=`fslstats ${data_path}/preprocessing_ALL/${subject}/ses-${session}spinalcord/func/run-${run}/${subject}_ses-${session}spinalcord_task-${task}_run-${run}_bold_mc2_pnm_stc2template_smooth225_trialwise_second_level.gfeat/cope1.feat/thresh_zstat1.nii.gz -k ${data_path}/masks/rois_n25/${roi}.nii.gz -M`
             #voxels=`fslstats ${data_path}/preprocessing_ALL/${subject}/ses-${session}spinalcord/func/run-${run}/${subject}_ses-${session}spinalcord_task-${task}_run-${run}_bold_mc2_pnm_stc2template_smooth225_trialwise_second_level.gfeat/cope1.feat/thresh_zstat1.nii.gz -k ${data_path}/masks/rois_n25/${roi}.nii.gz -V | cut -d " " -f1`
-            zscore=`fslstats ${data_path}/preprocessing_ALL/${subject}/ses-${session}spinalcord/func/run-${run}/${subject}_ses-${session}spinalcord_task-${task}_run-${run}_bold_mc2_pnm_stc2template_smooth225_trialwise_second_level.gfeat/cope1.feat/stats/cope1.nii.gz -k ${data_path}/masks/rois_n25/${roi}.nii.gz -M`
-            voxels=`fslstats ${data_path}/preprocessing_ALL/${subject}/ses-${session}spinalcord/func/run-${run}/${subject}_ses-${session}spinalcord_task-${task}_run-${run}_bold_mc2_pnm_stc2template_smooth225_trialwise_second_level.gfeat/cope1.feat/stats/cope1.nii.gz -k ${data_path}/masks/rois_n25/${roi}.nii.gz -V | cut -d " " -f1`
+            zscore=`fslstats ${data_path}/preprocessing_ALL_no-WM/data_processed/${subject}/ses-${session}spinalcord/func/run-${run}/${subject}_ses-${session}spinalcord_task-${task}_run-${run}_bold_mc2_pnm_stc2template_smooth225_trialwise_second_level.gfeat/cope1.feat/stats/cope1.nii.gz -k ${data_path}/masks/rois_n25/${roi}.nii.gz -M`
+            voxels=`fslstats ${data_path}/preprocessing_ALL_no-WM/data_processed${subject}/ses-${session}spinalcord/func/run-${run}/${subject}_ses-${session}spinalcord_task-${task}_run-${run}_bold_mc2_pnm_stc2template_smooth225_trialwise_second_level.gfeat/cope1.feat/stats/cope1.nii.gz -k ${data_path}/masks/rois_n25/${roi}.nii.gz -V | cut -d " " -f1`
 
             echo ${task} ${run} ${subject} ${roi} ${zscore} ${voxels}
             echo ${task} ${run} ${subject} ${roi} ${zscore} ${voxels} >> subject_metrics_rois_cope.txt
